@@ -1,0 +1,1 @@
+export { deployContract } from "./deployContract"

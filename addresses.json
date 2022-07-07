@@ -1,0 +1,14 @@
+{
+  "mainnet": {
+    "SliceCore": "0x21da1b084175f95285B49b22C018889c45E1820d",
+    "ProductsModule": "0x689Bba0e25c259b205ECe8e6152Ee1eAcF307f5F",
+    "FundsModule": "0x6bcA3Dfd6c2b146dcdd460174dE95Fd1e26960BC",
+    "SlicerManager": "0x3e3E34f43a88EF99d448800B5d0579c6360a32b6"
+  },
+  "testnet": {
+    "SliceCore": "0xA86830240122455343171Ab54b9896896C7C8a6F",
+    "ProductsModule": "0x690932aCc7015e7B5Df2146fF11703Be0a4A14B1",
+    "FundsModule": "0x093190b8c22D37871eaB814486C62303c1aE5d14",
+    "SlicerManager": "0x2371683b6b67Fa952B5a2cE4898b17EB4905BAEa"
+  }
+}

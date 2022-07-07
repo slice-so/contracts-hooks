@@ -1,0 +1,1 @@
+export { deployUUPS } from "./deployUUPS"

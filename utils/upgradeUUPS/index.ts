@@ -1,0 +1,1 @@
+export { upgradeUUPS } from "./upgradeUUPS"
