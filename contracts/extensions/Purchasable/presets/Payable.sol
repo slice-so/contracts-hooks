@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "./SlicerPurchasable.sol";
-import "../../utils/sliceV1/interfaces/ISlicer.sol";
-import "../../utils/sliceV1/interfaces/ISliceCore.sol";
-import "../../utils/sliceV1/interfaces/IFundsModule.sol";
+import "../SlicerPurchasable.sol";
+import "../../../utils/sliceV1/interfaces/ISlicer.sol";
+import "../../../utils/sliceV1/interfaces/ISliceCore.sol";
+import "../../../utils/sliceV1/interfaces/IFundsModule.sol";
 
 /**
  * @title SlicerPurchasable
@@ -13,7 +13,7 @@ import "../../utils/sliceV1/interfaces/IFundsModule.sol";
  * @notice Contract module allowing basic usage of external calls made by slicers on product purchase,
  * which also includes a function to release any accumulated ETH to a `_collector` address.
  */
-abstract contract SlicerPurchasablePayable is SlicerPurchasable {
+abstract contract Payable is SlicerPurchasable {
     /// ============ Storage ============
 
     /// SliceCore contract address
