@@ -1,17 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./extensions/Purchasable/SlicerPurchasable.sol";
+import "../../structs/ERC20Gate.sol";
+import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
 
-contract MyContract is SlicerPurchasable {
-    constructor(address productsModuleAddress_, uint256 slicerId_)
-        SlicerPurchasable(productsModuleAddress_, slicerId_)
-    {}
+/**
+ * Purchase hook with single ERC20 Gate.
+*/
+contract ERC20Gated is SlicerPurchasableClone {
+
+    /// ============= Storage =============
+
+    ERC20Gate private gate;
+
+    /// ========== Initializer ==========
+
+    /**
+     * @notice Initializes the contract.
+     *
+     * @param productsModuleAddress_ {ProductsModule} address
+     * @param slicerId_ ID of the slicer linked to this contract
+     * @param erc20_ Address of the ERC20 contract used for gating
+     * @param gateAmount_ Amount of ERC20 tokens used for gating
+     */
+    function initialize(
+        address productsModuleAddress_, 
+        uint256 slicerId_,
+        IERC20 erc20_,
+        uint256 gateAmount_
+    ) external initializer {
+        __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
+        gate = ERC20Gate(erc20_, gateAmount_);
+    }
 
     /// ============ Functions ============
 
     /**
      * @notice Overridable function containing the requirements for an account to be eligible for the purchase.
+     *
+     * Checks if `account` owns the required amount of ERC20 tokens.
      *
      * @dev Used on the Slice interface to check whether a user is able to buy a product. See {ISlicerPurchasable}.
      * @dev Max quantity purchasable per address and total mint amount is handled on Slicer product logic
@@ -19,14 +46,14 @@ contract MyContract is SlicerPurchasable {
     function isPurchaseAllowed(
         uint256,
         uint256,
-        address,
+        address account,
         uint256,
         bytes memory,
         bytes memory
-    ) public view override returns (bool isAllowed) {
-        // Add all requirements related to product purchase here
-        // Return true if account is allowed to buy product
-        return true;
+    ) public view virtual override returns (bool isAllowed) {
+        uint256 accountBalance = gate.erc20.balanceOf(account);
+
+        isAllowed = accountBalance >= gate.amount;
     }
 
     /**
@@ -51,7 +78,5 @@ contract MyContract is SlicerPurchasable {
                 buyerCustomData
             )
         ) revert NotAllowed();
-
-        // Add product purchase logic here
     }
 }
