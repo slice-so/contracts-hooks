@@ -221,13 +221,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Gated__factory>;
     getContractFactory(
+      name: "Payable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Payable__factory>;
+    getContractFactory(
       name: "SlicerPurchasable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SlicerPurchasable__factory>;
     getContractFactory(
-      name: "SlicerPurchasablePayable",
+      name: "SlicerPurchasableClone",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SlicerPurchasablePayable__factory>;
+    ): Promise<Contracts.SlicerPurchasableClone__factory>;
+    getContractFactory(
+      name: "ERC20Gated",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Gated__factory>;
+    getContractFactory(
+      name: "ERC20GatedCloner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20GatedCloner__factory>;
     getContractFactory(
       name: "ISlicerPurchasable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -236,10 +248,6 @@ declare module "hardhat/types/runtime" {
       name: "ISlicerPurchasablePayable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISlicerPurchasablePayable__factory>;
-    getContractFactory(
-      name: "MyContract",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MyContract__factory>;
     getContractFactory(
       name: "JuiceboxProject",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -770,15 +778,30 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Gated>;
     getContractAt(
+      name: "Payable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Payable>;
+    getContractAt(
       name: "SlicerPurchasable",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SlicerPurchasable>;
     getContractAt(
-      name: "SlicerPurchasablePayable",
+      name: "SlicerPurchasableClone",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.SlicerPurchasablePayable>;
+    ): Promise<Contracts.SlicerPurchasableClone>;
+    getContractAt(
+      name: "ERC20Gated",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Gated>;
+    getContractAt(
+      name: "ERC20GatedCloner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20GatedCloner>;
     getContractAt(
       name: "ISlicerPurchasable",
       address: string,
@@ -789,11 +812,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ISlicerPurchasablePayable>;
-    getContractAt(
-      name: "MyContract",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MyContract>;
     getContractAt(
       name: "JuiceboxProject",
       address: string,
