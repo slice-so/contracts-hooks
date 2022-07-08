@@ -8,23 +8,29 @@ import {
   BytesLike,
   CallOverrides,
   ContractTransaction,
+  Overrides,
   PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result } from "@ethersproject/abi";
+import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface MyContractInterface extends utils.Interface {
   contractName: "MyContract";
   functions: {
+    "initialize(address,uint256)": FunctionFragment;
     "isPurchaseAllowed(uint256,uint256,address,uint256,bytes,bytes)": FunctionFragment;
     "onProductPurchase(uint256,uint256,address,uint256,bytes,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isPurchaseAllowed",
     values: [
       BigNumberish,
@@ -47,6 +53,7 @@ export interface MyContractInterface extends utils.Interface {
     ]
   ): string;
 
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isPurchaseAllowed",
     data: BytesLike
@@ -56,8 +63,16 @@ export interface MyContractInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {};
+  events: {
+    "Initialized(uint8)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
 }
+
+export type InitializedEvent = TypedEvent<[number], { version: number }>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface MyContract extends BaseContract {
   contractName: "MyContract";
@@ -87,6 +102,12 @@ export interface MyContract extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,
@@ -107,6 +128,12 @@ export interface MyContract extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  initialize(
+    productsModuleAddress_: string,
+    slicerId_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   isPurchaseAllowed(
     arg0: BigNumberish,
@@ -129,6 +156,12 @@ export interface MyContract extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,
@@ -150,9 +183,18 @@ export interface MyContract extends BaseContract {
     ): Promise<void>;
   };
 
-  filters: {};
+  filters: {
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+  };
 
   estimateGas: {
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,
@@ -175,6 +217,12 @@ export interface MyContract extends BaseContract {
   };
 
   populateTransaction: {
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,

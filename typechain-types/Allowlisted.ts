@@ -21,17 +21,14 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface AllowlistedInterface extends utils.Interface {
   contractName: "Allowlisted";
   functions: {
-    "_setMerkleRoot(uint256,bytes32)": FunctionFragment;
+    "initialize(address,uint256,bytes32)": FunctionFragment;
     "isPurchaseAllowed(uint256,uint256,address,uint256,bytes,bytes)": FunctionFragment;
     "onProductPurchase(uint256,uint256,address,uint256,bytes,bytes)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "_setMerkleRoot",
-    values: [BigNumberish, BytesLike]
+    functionFragment: "initialize",
+    values: [string, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "isPurchaseAllowed",
@@ -54,53 +51,28 @@ export interface AllowlistedInterface extends utils.Interface {
       BytesLike,
       BytesLike
     ]
-  ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "_setMerkleRoot",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isPurchaseAllowed",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "onProductPurchase",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
-    "OwnershipTransferred(address,address)": EventFragment;
+    "Initialized(uint8)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
 }
 
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  { previousOwner: string; newOwner: string }
->;
+export type InitializedEvent = TypedEvent<[number], { version: number }>;
 
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface Allowlisted extends BaseContract {
   contractName: "Allowlisted";
@@ -130,15 +102,16 @@ export interface Allowlisted extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    _setMerkleRoot(
-      productId: BigNumberish,
-      merkleRoot: BytesLike,
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      merkleRoot_: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     isPurchaseAllowed(
       arg0: BigNumberish,
-      productId: BigNumberish,
+      arg1: BigNumberish,
       account: string,
       arg3: BigNumberish,
       arg4: BytesLike,
@@ -155,28 +128,18 @@ export interface Allowlisted extends BaseContract {
       buyerCustomData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    owner(overrides?: CallOverrides): Promise<[string]>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
-  _setMerkleRoot(
-    productId: BigNumberish,
-    merkleRoot: BytesLike,
+  initialize(
+    productsModuleAddress_: string,
+    slicerId_: BigNumberish,
+    merkleRoot_: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   isPurchaseAllowed(
     arg0: BigNumberish,
-    productId: BigNumberish,
+    arg1: BigNumberish,
     account: string,
     arg3: BigNumberish,
     arg4: BytesLike,
@@ -194,27 +157,17 @@ export interface Allowlisted extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
-
-  renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  transferOwnership(
-    newOwner: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
-    _setMerkleRoot(
-      productId: BigNumberish,
-      merkleRoot: BytesLike,
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      merkleRoot_: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
     isPurchaseAllowed(
       arg0: BigNumberish,
-      productId: BigNumberish,
+      arg1: BigNumberish,
       account: string,
       arg3: BigNumberish,
       arg4: BytesLike,
@@ -231,38 +184,24 @@ export interface Allowlisted extends BaseContract {
       buyerCustomData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    owner(overrides?: CallOverrides): Promise<string>;
-
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
   };
 
   estimateGas: {
-    _setMerkleRoot(
-      productId: BigNumberish,
-      merkleRoot: BytesLike,
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      merkleRoot_: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     isPurchaseAllowed(
       arg0: BigNumberish,
-      productId: BigNumberish,
+      arg1: BigNumberish,
       account: string,
       arg3: BigNumberish,
       arg4: BytesLike,
@@ -278,30 +217,20 @@ export interface Allowlisted extends BaseContract {
       slicerCustomData: BytesLike,
       buyerCustomData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    _setMerkleRoot(
-      productId: BigNumberish,
-      merkleRoot: BytesLike,
+    initialize(
+      productsModuleAddress_: string,
+      slicerId_: BigNumberish,
+      merkleRoot_: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     isPurchaseAllowed(
       arg0: BigNumberish,
-      productId: BigNumberish,
+      arg1: BigNumberish,
       account: string,
       arg3: BigNumberish,
       arg4: BytesLike,
@@ -317,17 +246,6 @@ export interface Allowlisted extends BaseContract {
       slicerCustomData: BytesLike,
       buyerCustomData: BytesLike,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
