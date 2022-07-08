@@ -6,9 +6,8 @@ import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
 
 /**
  * Purchase hook with single ERC20 Gate.
-*/
+ */
 contract ERC20Gated is SlicerPurchasableClone {
-
     /// ============= Storage =============
 
     ERC20Gate private gate;
@@ -24,7 +23,7 @@ contract ERC20Gated is SlicerPurchasableClone {
      * @param gateAmount_ Amount of ERC20 tokens used for gating
      */
     function initialize(
-        address productsModuleAddress_, 
+        address productsModuleAddress_,
         uint256 slicerId_,
         IERC20 erc20_,
         uint256 gateAmount_

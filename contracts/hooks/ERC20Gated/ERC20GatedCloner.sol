@@ -5,10 +5,9 @@ import "./ERC20Gated.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 /**
- * Purchase hook with single ERC20 Gate.
-*/
+ * Deploy clones of purchase hook with single ERC20 Gate.
+ */
 contract ERC20GatedCloner {
-
     /// ============= Storage =============
 
     address private immutable implementation;
@@ -28,7 +27,7 @@ contract ERC20GatedCloner {
      * @notice Deploy and initialize proxy clone.
      */
     function clone(
-        address productsModuleAddress_, 
+        address productsModuleAddress_,
         uint256 slicerId_,
         IERC20 erc20_,
         uint256 gateAmount_
@@ -38,9 +37,9 @@ contract ERC20GatedCloner {
 
         // Initialize proxy
         ERC20Gated(contractAddress).initialize(
-            productsModuleAddress_, 
-            slicerId_, 
-            erc20_, 
+            productsModuleAddress_,
+            slicerId_,
+            erc20_,
             gateAmount_
         );
     }
