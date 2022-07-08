@@ -1,11 +1,11 @@
 import { ethers } from "hardhat"
 
-const contractFactoryName = "ERC20GatedCloner"
+const contractName = "AllowlistedCloner"
 
 async function main() {
   console.log("deploying")
 
-  const CONTRACT = await ethers.getContractFactory(contractFactoryName)
+  const CONTRACT = await ethers.getContractFactory(contractName)
   const contract = await CONTRACT.deploy()
   await contract.deployed()
 
