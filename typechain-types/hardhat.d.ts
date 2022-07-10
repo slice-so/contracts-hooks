@@ -257,6 +257,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISlicerPurchasablePayable__factory>;
     getContractFactory(
+      name: "MyHook",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyHook__factory>;
+    getContractFactory(
+      name: "MyHookCloner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyHookCloner__factory>;
+    getContractFactory(
       name: "JuiceboxProject",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.JuiceboxProject__factory>;
@@ -838,6 +846,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ISlicerPurchasablePayable>;
+    getContractAt(
+      name: "MyHook",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyHook>;
+    getContractAt(
+      name: "MyHookCloner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyHookCloner>;
     getContractAt(
       name: "JuiceboxProject",
       address: string,

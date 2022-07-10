@@ -1,7 +1,7 @@
 import { expect } from "chai"
 import { ethers } from "hardhat"
 import { createSlicer, createProduct } from "../../utils"
-import { MyContract } from "../../typechain-types/MyContract"
+import { MyHook } from "../../typechain-types/MyHook"
 import {
   a0,
   a1,
@@ -13,12 +13,12 @@ import {
   productsModule,
 } from "../setup"
 
-describe("{MyContract}", () => {
-  let myContract: MyContract
+describe("{MyHook}", () => {
+  let myHook: MyHook
   let slicerId: number
 
   it("Contract is deployed and initialized", async () => {
-    const MYCONTRACT = await ethers.getContractFactory("MyContractTest")
+    const MYHOOK = await ethers.getContractFactory("MyHookTest")
 
     // Create slicer
     const { tokenId } = await createSlicer(
@@ -35,16 +35,13 @@ describe("{MyContract}", () => {
     slicerId = tokenId
 
     // Deploy contract
-    myContract = (await MYCONTRACT.deploy(
-      productsModule.address,
-      slicerId
-    )) as MyContract
-    await myContract.deployed()
+    myHook = (await MYHOOK.deploy(productsModule.address, slicerId)) as MyHook
+    await myHook.deployed()
 
     // Create products
 
     await createProduct(slicerId, 1, 100, [], true, false, [], {
-      externalAddress: myContract.address,
+      externalAddress: myHook.address,
       checkFunctionSignature: isPurchaseAllowedSignature,
       execFunctionSignature: onProductPurchaseSignature,
       data: [],
@@ -54,7 +51,7 @@ describe("{MyContract}", () => {
 
   describe("isPurchaseAllowed", () => {
     it("Returns true if allowed", async () => {
-      const isAllowedA1 = await myContract.isPurchaseAllowed(
+      const isAllowedA1 = await myHook.isPurchaseAllowed(
         slicerId,
         1,
         a1,
@@ -67,7 +64,7 @@ describe("{MyContract}", () => {
     })
 
     it("Returns false if not allowed", async () => {
-      const isAllowedA4 = await myContract.isPurchaseAllowed(
+      const isAllowedA4 = await myHook.isPurchaseAllowed(
         slicerId,
         1,
         a4,

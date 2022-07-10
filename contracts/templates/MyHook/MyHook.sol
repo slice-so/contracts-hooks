@@ -6,7 +6,7 @@ import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
 /**
  * Use this folder to quickly set up your custom purchase hook deployer
  */
-contract MyContract is SlicerPurchasableClone {
+contract MyHook is SlicerPurchasableClone {
     /// ============= Storage =============
 
     // Add storage variables to initialize

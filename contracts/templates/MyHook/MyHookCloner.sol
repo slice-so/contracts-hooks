@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./MyContract.sol";
+import "./MyHook.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 /**
  * Deploy clones of my purchase hook.
  */
-contract MyContractCloner {
+contract MyHookCloner {
     /// ============= Storage =============
 
     address private immutable implementation;
@@ -18,7 +18,7 @@ contract MyContractCloner {
      * @notice Initializes the contract and deploys the clone implementation.
      */
     constructor() {
-        implementation = address(new MyContract());
+        implementation = address(new MyHook());
     }
 
     /// ============ Functions ============
@@ -34,6 +34,6 @@ contract MyContractCloner {
         contractAddress = Clones.clone(implementation);
 
         // Initialize proxy
-        MyContract(contractAddress).initialize(productsModuleAddress_, slicerId_);
+        MyHook(contractAddress).initialize(productsModuleAddress_, slicerId_);
     }
 }
