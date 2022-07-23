@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "../../../structs/ERC20Gate.sol";
+import "../../structs/ERC20Gate.sol";
 
-import "../SlicerPurchasable.sol";
+import "../Purchasable/SlicerPurchasable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**

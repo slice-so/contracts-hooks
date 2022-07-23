@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "../SlicerPurchasable.sol";
-import "../../../utils/sliceV1/interfaces/ISlicer.sol";
-import "../../../utils/sliceV1/interfaces/ISliceCore.sol";
-import "../../../utils/sliceV1/interfaces/IFundsModule.sol";
+import "../Purchasable/SlicerPurchasable.sol";
+import "../../utils/sliceV1/interfaces/ISlicer.sol";
+import "../../utils/sliceV1/interfaces/ISliceCore.sol";
+import "../../utils/sliceV1/interfaces/IFundsModule.sol";
 
 /**
  * @title SlicerPurchasable
