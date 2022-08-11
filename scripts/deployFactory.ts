@@ -1,9 +1,9 @@
 import { ethers } from "hardhat"
 
-const contractName = ""
+const contractName = "" // Cloner contract address
 
 async function main() {
-  console.log("deploying")
+  console.log("deploying " + contractName)
 
   const CONTRACT = await ethers.getContractFactory(contractName)
   const contract = await CONTRACT.deploy()
