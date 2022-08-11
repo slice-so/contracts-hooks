@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 import "../../structs/ERC20Gate.sol";
-
 import "../Purchasable/SlicerPurchasable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 

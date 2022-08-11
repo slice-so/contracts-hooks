@@ -249,6 +249,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20GatedCloner__factory>;
     getContractFactory(
+      name: "ERC721Gated",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721Gated__factory>;
+    getContractFactory(
+      name: "ERC721GatedCloner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721GatedCloner__factory>;
+    getContractFactory(
       name: "ISlicerPurchasable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISlicerPurchasable__factory>;
@@ -476,14 +484,6 @@ declare module "hardhat/types/runtime" {
       name: "YearnYielder",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YearnYielder__factory>;
-    getContractFactory(
-      name: "MyContract",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MyContract__factory>;
-    getContractFactory(
-      name: "MyContractCloner",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MyContractCloner__factory>;
     getContractFactory(
       name: "FundsModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -837,6 +837,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20GatedCloner>;
     getContractAt(
+      name: "ERC721Gated",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Gated>;
+    getContractAt(
+      name: "ERC721GatedCloner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721GatedCloner>;
+    getContractAt(
       name: "ISlicerPurchasable",
       address: string,
       signer?: ethers.Signer
@@ -1121,16 +1131,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.YearnYielder>;
-    getContractAt(
-      name: "MyContract",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MyContract>;
-    getContractAt(
-      name: "MyContractCloner",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MyContractCloner>;
     getContractAt(
       name: "FundsModule",
       address: string,

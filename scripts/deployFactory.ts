@@ -1,6 +1,6 @@
 import { ethers } from "hardhat"
 
-const contractName = "AllowlistedCloner"
+const contractName = ""
 
 async function main() {
   console.log("deploying")
