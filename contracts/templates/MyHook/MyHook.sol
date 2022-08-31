@@ -1,29 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
+import "../../extensions/Purchasable/SlicerPurchasable.sol";
 
 /**
- * Use this folder to quickly set up your custom purchase hook deployer
+ * Use this folder to quickly set up your custom purchase hook and factory contracts
  */
-contract MyHook is SlicerPurchasableClone {
+abstract contract MyHook is SlicerPurchasable {
     /// ============= Storage =============
 
     // Add storage variables to initialize
-
-    /// ========== Initializer ==========
-
-    /**
-     * @notice Initializes the contract.
-     *
-     * @param productsModuleAddress_ {ProductsModule} address
-     * @param slicerId_ ID of the slicer linked to this contract
-     */
-    function initialize(address productsModuleAddress_, uint256 slicerId_) external initializer {
-        __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
-
-        // Initialize storage variables
-    }
 
     /// ============ Functions ============
 

@@ -1,34 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
+import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 /**
  * Purchase hook with allowlist requirement.
  */
-contract Allowlisted is SlicerPurchasableClone {
+abstract contract Allowlisted is SlicerPurchasable {
     /// ============= Storage =============
 
-    bytes32 private merkleRoot;
-
-    /// ========== Initializer ==========
-
-    /**
-     * @notice Initializes the contract.
-     *
-     * @param productsModuleAddress_ {ProductsModule} address
-     * @param slicerId_ ID of the slicer linked to this contract
-     * @param merkleRoot_ Merkle root used to verify proof validity
-     */
-    function initialize(
-        address productsModuleAddress_,
-        uint256 slicerId_,
-        bytes32 merkleRoot_
-    ) external initializer {
-        __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
-        merkleRoot = merkleRoot_;
-    }
+    bytes32 internal _merkleRoot;
 
     /// ============ Functions ============
 
@@ -54,7 +36,7 @@ contract Allowlisted is SlicerPurchasableClone {
         bytes32 leaf = keccak256(abi.encodePacked(account));
 
         // Check if Merkle proof is valid
-        isAllowed = MerkleProof.verify(proof, merkleRoot, leaf);
+        isAllowed = MerkleProof.verify(proof, _merkleRoot, leaf);
     }
 
     /**

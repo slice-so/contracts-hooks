@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./ERC20Gated.sol";
+import "./ERC20GatedClone.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 /**
- * Deploy clones of purchase hook with single ERC20 Gate.
+ * ERC20Gated clone factory contract.
  */
 contract ERC20GatedCloner {
     /// ============= Storage =============
@@ -18,7 +18,7 @@ contract ERC20GatedCloner {
      * @notice Initializes the contract and deploys the clone implementation.
      */
     constructor() {
-        implementation = address(new ERC20Gated());
+        implementation = address(new ERC20GatedClone());
     }
 
     /// ============ Functions ============
@@ -36,7 +36,7 @@ contract ERC20GatedCloner {
         contractAddress = Clones.clone(implementation);
 
         // Initialize proxy
-        ERC20Gated(contractAddress).initialize(
+        ERC20GatedClone(contractAddress).initialize(
             productsModuleAddress_,
             slicerId_,
             erc20_,

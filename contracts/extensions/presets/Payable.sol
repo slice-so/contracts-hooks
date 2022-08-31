@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "../Purchasable/SlicerPurchasable.sol";
+import "../Purchasable/SlicerPurchasableConstructor.sol";
 import "../../utils/sliceV1/interfaces/ISlicer.sol";
 import "../../utils/sliceV1/interfaces/ISliceCore.sol";
 import "../../utils/sliceV1/interfaces/IFundsModule.sol";
@@ -13,7 +13,7 @@ import "../../utils/sliceV1/interfaces/IFundsModule.sol";
  * @notice Contract module allowing basic usage of external calls made by slicers on product purchase,
  * which also includes a function to release any accumulated ETH to a `_collector` address.
  */
-abstract contract Payable is SlicerPurchasable {
+abstract contract Payable is SlicerPurchasableConstructor {
     /// ============ Storage ============
 
     /// SliceCore contract address
@@ -38,7 +38,7 @@ abstract contract Payable is SlicerPurchasable {
         address sliceCoreAddress_,
         address fundsModule_,
         address payable collector_
-    ) SlicerPurchasable(productsModuleAddress_, slicerId_) {
+    ) SlicerPurchasableConstructor(productsModuleAddress_, slicerId_) {
         _sliceCore = ISliceCore(sliceCoreAddress_);
         _fundsModule = IFundsModule(fundsModule_);
         _collector = collector_;

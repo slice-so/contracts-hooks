@@ -1,36 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../../structs/ERC20Gate.sol";
-import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
+import "./structs/ERC20Gate.sol";
+import "../../extensions/Purchasable/SlicerPurchasable.sol";
 
 /**
  * Purchase hook with single ERC20 Gate.
  */
-contract ERC20Gated is SlicerPurchasableClone {
+abstract contract ERC20Gated is SlicerPurchasable {
     /// ============= Storage =============
 
-    ERC20Gate private gate;
-
-    /// ========== Initializer ==========
-
-    /**
-     * @notice Initializes the contract.
-     *
-     * @param productsModuleAddress_ {ProductsModule} address
-     * @param slicerId_ ID of the slicer linked to this contract
-     * @param erc20_ Address of the ERC20 contract used for gating
-     * @param gateAmount_ Amount of ERC20 tokens used for gating
-     */
-    function initialize(
-        address productsModuleAddress_,
-        uint256 slicerId_,
-        IERC20 erc20_,
-        uint256 gateAmount_
-    ) external initializer {
-        __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
-        gate = ERC20Gate(erc20_, gateAmount_);
-    }
+    ERC20Gate internal gate;
 
     /// ============ Functions ============
 

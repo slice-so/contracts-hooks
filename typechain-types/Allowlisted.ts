@@ -8,29 +8,23 @@ import {
   BytesLike,
   CallOverrides,
   ContractTransaction,
-  Overrides,
   PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
+import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface AllowlistedInterface extends utils.Interface {
   contractName: "Allowlisted";
   functions: {
-    "initialize(address,uint256,bytes32)": FunctionFragment;
     "isPurchaseAllowed(uint256,uint256,address,uint256,bytes,bytes)": FunctionFragment;
     "onProductPurchase(uint256,uint256,address,uint256,bytes,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "initialize",
-    values: [string, BigNumberish, BytesLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isPurchaseAllowed",
     values: [
       BigNumberish,
@@ -53,7 +47,6 @@ export interface AllowlistedInterface extends utils.Interface {
     ]
   ): string;
 
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isPurchaseAllowed",
     data: BytesLike
@@ -63,16 +56,8 @@ export interface AllowlistedInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {
-    "Initialized(uint8)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
+  events: {};
 }
-
-export type InitializedEvent = TypedEvent<[number], { version: number }>;
-
-export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export interface Allowlisted extends BaseContract {
   contractName: "Allowlisted";
@@ -102,13 +87,6 @@ export interface Allowlisted extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    initialize(
-      productsModuleAddress_: string,
-      slicerId_: BigNumberish,
-      merkleRoot_: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,
@@ -129,13 +107,6 @@ export interface Allowlisted extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
-
-  initialize(
-    productsModuleAddress_: string,
-    slicerId_: BigNumberish,
-    merkleRoot_: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   isPurchaseAllowed(
     arg0: BigNumberish,
@@ -158,13 +129,6 @@ export interface Allowlisted extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    initialize(
-      productsModuleAddress_: string,
-      slicerId_: BigNumberish,
-      merkleRoot_: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,
@@ -186,19 +150,9 @@ export interface Allowlisted extends BaseContract {
     ): Promise<void>;
   };
 
-  filters: {
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
-    Initialized(version?: null): InitializedEventFilter;
-  };
+  filters: {};
 
   estimateGas: {
-    initialize(
-      productsModuleAddress_: string,
-      slicerId_: BigNumberish,
-      merkleRoot_: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,
@@ -221,13 +175,6 @@ export interface Allowlisted extends BaseContract {
   };
 
   populateTransaction: {
-    initialize(
-      productsModuleAddress_: string,
-      slicerId_: BigNumberish,
-      merkleRoot_: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     isPurchaseAllowed(
       arg0: BigNumberish,
       arg1: BigNumberish,

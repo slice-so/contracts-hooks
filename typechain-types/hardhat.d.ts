@@ -225,6 +225,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Payable__factory>;
     getContractFactory(
+      name: "ISlicerPurchasable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISlicerPurchasable__factory>;
+    getContractFactory(
+      name: "ISlicerPurchasablePayable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISlicerPurchasablePayable__factory>;
+    getContractFactory(
       name: "SlicerPurchasable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SlicerPurchasable__factory>;
@@ -233,13 +241,37 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SlicerPurchasableClone__factory>;
     getContractFactory(
+      name: "SlicerPurchasableConstructor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SlicerPurchasableConstructor__factory>;
+    getContractFactory(
       name: "Allowlisted",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Allowlisted__factory>;
     getContractFactory(
+      name: "AllowlistedClone",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AllowlistedClone__factory>;
+    getContractFactory(
       name: "AllowlistedCloner",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AllowlistedCloner__factory>;
+    getContractFactory(
+      name: "AllowlistedFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AllowlistedFactory__factory>;
+    getContractFactory(
+      name: "AllowlistedImmutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AllowlistedImmutable__factory>;
+    getContractFactory(
+      name: "ERC20GatedClone",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20GatedClone__factory>;
+    getContractFactory(
+      name: "ERC20GatedCloner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20GatedCloner__factory>;
     getContractFactory(
       name: "ERC20Gated",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -249,6 +281,22 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20GatedCloner__factory>;
     getContractFactory(
+      name: "ERC20GatedFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20GatedFactory__factory>;
+    getContractFactory(
+      name: "ERC20GatedImmutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20GatedImmutable__factory>;
+    getContractFactory(
+      name: "ERC721GatedClone",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721GatedClone__factory>;
+    getContractFactory(
+      name: "ERC721GatedCloner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721GatedCloner__factory>;
+    getContractFactory(
       name: "ERC721Gated",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721Gated__factory>;
@@ -257,6 +305,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721GatedCloner__factory>;
     getContractFactory(
+      name: "ERC721GatedFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721GatedFactory__factory>;
+    getContractFactory(
+      name: "ERC721GatedImmutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721GatedImmutable__factory>;
+    getContractFactory(
       name: "ISlicerPurchasable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISlicerPurchasable__factory>;
@@ -264,6 +320,22 @@ declare module "hardhat/types/runtime" {
       name: "ISlicerPurchasablePayable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISlicerPurchasablePayable__factory>;
+    getContractFactory(
+      name: "MyHookClone",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyHookClone__factory>;
+    getContractFactory(
+      name: "MyHookCloner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyHookCloner__factory>;
+    getContractFactory(
+      name: "MyHookFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyHookFactory__factory>;
+    getContractFactory(
+      name: "MyHookImmutable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyHookImmutable__factory>;
     getContractFactory(
       name: "MyHook",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -807,6 +879,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Payable>;
     getContractAt(
+      name: "ISlicerPurchasable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISlicerPurchasable>;
+    getContractAt(
+      name: "ISlicerPurchasablePayable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISlicerPurchasablePayable>;
+    getContractAt(
       name: "SlicerPurchasable",
       address: string,
       signer?: ethers.Signer
@@ -817,15 +899,45 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.SlicerPurchasableClone>;
     getContractAt(
+      name: "SlicerPurchasableConstructor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SlicerPurchasableConstructor>;
+    getContractAt(
       name: "Allowlisted",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Allowlisted>;
     getContractAt(
+      name: "AllowlistedClone",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AllowlistedClone>;
+    getContractAt(
       name: "AllowlistedCloner",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.AllowlistedCloner>;
+    getContractAt(
+      name: "AllowlistedFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AllowlistedFactory>;
+    getContractAt(
+      name: "AllowlistedImmutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AllowlistedImmutable>;
+    getContractAt(
+      name: "ERC20GatedClone",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20GatedClone>;
+    getContractAt(
+      name: "ERC20GatedCloner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20GatedCloner>;
     getContractAt(
       name: "ERC20Gated",
       address: string,
@@ -837,6 +949,26 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20GatedCloner>;
     getContractAt(
+      name: "ERC20GatedFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20GatedFactory>;
+    getContractAt(
+      name: "ERC20GatedImmutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20GatedImmutable>;
+    getContractAt(
+      name: "ERC721GatedClone",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721GatedClone>;
+    getContractAt(
+      name: "ERC721GatedCloner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721GatedCloner>;
+    getContractAt(
       name: "ERC721Gated",
       address: string,
       signer?: ethers.Signer
@@ -847,6 +979,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC721GatedCloner>;
     getContractAt(
+      name: "ERC721GatedFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721GatedFactory>;
+    getContractAt(
+      name: "ERC721GatedImmutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721GatedImmutable>;
+    getContractAt(
       name: "ISlicerPurchasable",
       address: string,
       signer?: ethers.Signer
@@ -856,6 +998,26 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ISlicerPurchasablePayable>;
+    getContractAt(
+      name: "MyHookClone",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyHookClone>;
+    getContractAt(
+      name: "MyHookCloner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyHookCloner>;
+    getContractAt(
+      name: "MyHookFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyHookFactory>;
+    getContractAt(
+      name: "MyHookImmutable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyHookImmutable>;
     getContractAt(
       name: "MyHook",
       address: string,

@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./Allowlisted.sol";
+import "./ERC721GatedClone.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 /**
- * Deploy clones of purchase hook with allowlist requirement.
+ * ERC721Gated clone factory contract.
  */
-contract AllowlistedCloner {
+contract ERC721GatedCloner {
     /// ============= Storage =============
 
     address private immutable implementation;
@@ -18,7 +18,7 @@ contract AllowlistedCloner {
      * @notice Initializes the contract and deploys the clone implementation.
      */
     constructor() {
-        implementation = address(new Allowlisted());
+        implementation = address(new ERC721GatedClone());
     }
 
     /// ============ Functions ============
@@ -29,12 +29,12 @@ contract AllowlistedCloner {
     function clone(
         address productsModuleAddress_,
         uint256 slicerId_,
-        bytes32 merkleRoot_
+        IERC721 erc721_
     ) external returns (address contractAddress) {
         // Deploys proxy clone
         contractAddress = Clones.clone(implementation);
 
         // Initialize proxy
-        Allowlisted(contractAddress).initialize(productsModuleAddress_, slicerId_, merkleRoot_);
+        ERC721GatedClone(contractAddress).initialize(productsModuleAddress_, slicerId_, erc721_);
     }
 }

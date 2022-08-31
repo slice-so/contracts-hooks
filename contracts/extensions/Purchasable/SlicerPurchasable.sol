@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "../../interfaces/extensions/Purchasable/ISlicerPurchasable.sol";
+import "./interfaces/ISlicerPurchasable.sol";
 
 /**
  * @title SlicerPurchasable
@@ -26,20 +26,7 @@ abstract contract SlicerPurchasable is ISlicerPurchasable {
     /// ProductsModule contract address
     address internal _productsModuleAddress;
     /// Id of the slicer able to call the functions with the `OnlyOnPurchaseFrom` function
-    uint256 internal immutable _slicerId;
-
-    /// ============ Constructor ============
-
-    /**
-     * @notice Initializes the contract.
-     *
-     * @param productsModuleAddress_ {ProductsModule} address
-     * @param slicerId_ ID of the slicer linked to this contract
-     */
-    constructor(address productsModuleAddress_, uint256 slicerId_) {
-        _productsModuleAddress = productsModuleAddress_;
-        _slicerId = slicerId_;
-    }
+    uint256 internal _slicerId;
 
     /// ============ Modifiers ============
 

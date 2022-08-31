@@ -1,34 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../../extensions/Purchasable/SlicerPurchasableClone.sol";
+import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 
 /**
  * Purchase hook with single ERC20 Gate.
  */
-contract ERC721Gated is SlicerPurchasableClone {
+abstract contract ERC721Gated is SlicerPurchasable {
     /// ============= Storage =============
 
-    IERC721 private _erc721;
-
-    /// ========== Initializer ==========
-
-    /**
-     * @notice Initializes the contract.
-     *
-     * @param productsModuleAddress_ {ProductsModule} address
-     * @param slicerId_ ID of the slicer linked to this contract
-     * @param erc721_ Address of the ERC721 contract used for gating
-     */
-    function initialize(
-        address productsModuleAddress_,
-        uint256 slicerId_,
-        IERC721 erc721_
-    ) external initializer {
-        __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
-        _erc721 = erc721_;
-    }
+    IERC721 internal _erc721;
 
     /// ============ Functions ============
 
