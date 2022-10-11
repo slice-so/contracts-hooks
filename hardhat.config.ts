@@ -21,6 +21,12 @@ module.exports = {
         mnemonic: process.env.MNEMONIC,
       },
     },
+    goerli: {
+      url: process.env.URL_GOERLI,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+    },
     mainnet: {
       url: process.env.URL_MAINNET,
       accounts: {
