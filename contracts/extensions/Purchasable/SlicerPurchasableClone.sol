@@ -11,6 +11,14 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * @notice Extension enabling basic usage of external calls by slicers upon product purchase.
  */
 abstract contract SlicerPurchasableClone is SlicerPurchasable, Initializable {
+    /// =============== Errors ==============
+
+    error NoDelegatecall();
+
+    /// ========= Immutable storage =========
+
+    address original;
+
     /// ========== Initializer ==========
 
     /**
@@ -19,11 +27,20 @@ abstract contract SlicerPurchasableClone is SlicerPurchasable, Initializable {
      * @param productsModuleAddress_ {ProductsModule} address
      * @param slicerId_ ID of the slicer linked to this contract
      */
-    function __SlicerPurchasableClone_init(address productsModuleAddress_, uint256 slicerId_)
-        internal
-        onlyInitializing
-    {
+    function __SlicerPurchasableClone_init(
+        address productsModuleAddress_,
+        uint256 slicerId_
+    ) internal onlyInitializing {
         _productsModuleAddress = productsModuleAddress_;
         _slicerId = slicerId_;
+        original = address(this);
+    }
+
+    /**
+     * @notice Add delegate call check
+     */
+    function _onlyOnPurchaseFrom(uint256 slicerId) internal view virtual override {
+        super._onlyOnPurchaseFrom(slicerId);
+        if (address(this) != original) revert NoDelegatecall();
     }
 }

@@ -10,6 +10,14 @@ import "./SlicerPurchasable.sol";
  * @notice Extension enabling basic usage of external calls by slicers upon product purchase.
  */
 abstract contract SlicerPurchasableConstructor is SlicerPurchasable {
+    /// =============== Errors ==============
+
+    error NoDelegatecall();
+
+    /// ========= Immutable storage =========
+
+    address immutable original;
+
     /// ============ Constructor ============
 
     /**
@@ -21,5 +29,14 @@ abstract contract SlicerPurchasableConstructor is SlicerPurchasable {
     constructor(address productsModuleAddress_, uint256 slicerId_) {
         _productsModuleAddress = productsModuleAddress_;
         _slicerId = slicerId_;
+        original = address(this);
+    }
+
+    /**
+     * @notice Add delegate call check
+     */
+    function _onlyOnPurchaseFrom(uint256 slicerId) internal view virtual override {
+        super._onlyOnPurchaseFrom(slicerId);
+        if (address(this) != original) revert NoDelegatecall();
     }
 }
