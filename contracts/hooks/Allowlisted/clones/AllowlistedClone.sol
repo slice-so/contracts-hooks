@@ -27,4 +27,8 @@ contract AllowlistedClone is Allowlisted, Initializable {
         _slicerId = slicerId_;
         _merkleRoot = merkleRoot_;
     }
+
+    constructor() {
+        _disableInitializers();
+    }
 }

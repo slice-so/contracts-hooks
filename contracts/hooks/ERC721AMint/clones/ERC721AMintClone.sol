@@ -56,6 +56,10 @@ contract ERC721AMintClone is
         else if (bytes(tokenURI__).length != 0) tokenURI_ = tokenURI__;
     }
 
+    constructor() {
+        _disableInitializers();
+    }
+
     // =============================================================
     //                        IERC721Metadata
     // =============================================================

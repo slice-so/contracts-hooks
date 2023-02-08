@@ -29,4 +29,8 @@ contract ERC20GatedClone is ERC20Gated, Initializable {
         _slicerId = slicerId_;
         gate = ERC20Gate(erc20_, gateAmount_);
     }
+
+    constructor() {
+        _disableInitializers();
+    }
 }

@@ -27,4 +27,8 @@ contract ERC721GatedClone is ERC721Gated, Initializable {
         _slicerId = slicerId_;
         _erc721 = erc721_;
     }
+
+    constructor() {
+        _disableInitializers();
+    }
 }
