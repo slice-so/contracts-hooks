@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 import "../../../extensions/Purchasable/SlicerPurchasableClone.sol";
 import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
@@ -14,14 +13,21 @@ contract ERC721AMintClone is
     Initializable,
     ERC721AUpgradeable,
     IERC2981Upgradeable,
-    OwnableUpgradeable,
     SlicerPurchasableClone
 {
+    // =============================================================
+    //                          Errors
+    // =============================================================
+
+    error Invalid();
+
     // =============================================================
     //                           Storage
     // =============================================================
 
+    uint256 public constant MAX_ROYALTY = 10_000;
     uint256 public royaltyFraction;
+    address public royaltyReceiver;
     string public baseURI_;
     string public tokenURI_;
 
@@ -36,6 +42,7 @@ contract ERC721AMintClone is
      * @param slicerId_ ID of the slicer linked to this contract
      * @param name_ Name of the ERC721 contract
      * @param symbol_ Symbol of the ERC721 contract
+     * @param royaltyReceiver_ ERC2981 royalty receiver address
      * @param royaltyFraction_ ERC2981 royalty amount, to be divided by 10000
      * @param baseURI__ URI which concatenated with token ID forms the token URI
      * @param tokenURI__ URI which is returned as token URI
@@ -45,13 +52,21 @@ contract ERC721AMintClone is
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        address royaltyReceiver_,
         uint256 royaltyFraction_,
         string memory baseURI__,
         string memory tokenURI__
     ) external initializerERC721A initializer {
+        if (royaltyFraction_ > MAX_ROYALTY) revert Invalid();
+
         __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
         __ERC721A_init(name_, symbol_);
-        royaltyFraction = royaltyFraction_;
+
+        if (royaltyReceiver != address(0)) {
+            royaltyReceiver = royaltyReceiver_;
+            royaltyFraction = royaltyFraction_;
+        }
+
         if (bytes(baseURI__).length != 0) baseURI_ = baseURI__;
         else if (bytes(tokenURI__).length != 0) tokenURI_ = tokenURI__;
     }
@@ -95,11 +110,12 @@ contract ERC721AMintClone is
     function royaltyInfo(
         uint256,
         uint256 salePrice
-    ) external view override returns (address receiver, uint256 royaltyAmount) {
-        if (royaltyFraction != 0) {
-            receiver = owner();
-            royaltyAmount = (salePrice * royaltyFraction) / 10000;
-        }
+    ) external view override returns (address _receiver, uint256 _royaltyAmount) {
+        // return the receiver from storage
+        _receiver = royaltyReceiver;
+
+        // calculate and return the _royaltyAmount
+        _royaltyAmount = (salePrice * royaltyFraction) / MAX_ROYALTY;
     }
 
     // =============================================================

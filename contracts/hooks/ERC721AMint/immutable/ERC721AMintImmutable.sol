@@ -4,17 +4,24 @@ pragma solidity ^0.8.0;
 import "../../../extensions/Purchasable/SlicerPurchasableConstructor.sol";
 import "erc721a/contracts/ERC721A.sol";
 import "@openzeppelin/contracts/interfaces/IERC2981.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * ERC721AMint purchase hook.
  */
-contract ERC721AMintImmutable is ERC721A, IERC2981, Ownable, SlicerPurchasableConstructor {
+contract ERC721AMintImmutable is ERC721A, IERC2981, SlicerPurchasableConstructor {
+    // =============================================================
+    //                          Errors
+    // =============================================================
+
+    error Invalid();
+
     // =============================================================
     //                           Storage
     // =============================================================
 
+    uint256 public constant MAX_ROYALTY = 10_000;
     uint256 public immutable royaltyFraction;
+    address public immutable royaltyReceiver;
     string public baseURI_;
     string public tokenURI_;
 
@@ -29,6 +36,7 @@ contract ERC721AMintImmutable is ERC721A, IERC2981, Ownable, SlicerPurchasableCo
      * @param slicerId_ ID of the slicer linked to this contract
      * @param name_ Name of the ERC721 contract
      * @param symbol_ Symbol of the ERC721 contract
+     * @param royaltyReceiver_ ERC2981 royalty receiver address
      * @param royaltyFraction_ ERC2981 royalty amount, to be divided by 10000
      * @param baseURI__ URI which concatenated with token ID forms the token URI
      * @param tokenURI__ URI which is returned as token URI
@@ -38,10 +46,14 @@ contract ERC721AMintImmutable is ERC721A, IERC2981, Ownable, SlicerPurchasableCo
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        address royaltyReceiver_,
         uint256 royaltyFraction_,
         string memory baseURI__,
         string memory tokenURI__
     ) SlicerPurchasableConstructor(productsModuleAddress_, slicerId_) ERC721A(name_, symbol_) {
+        if (royaltyFraction_ > MAX_ROYALTY) revert Invalid();
+
+        royaltyReceiver = royaltyReceiver_;
         royaltyFraction = royaltyFraction_;
         if (bytes(baseURI__).length != 0) baseURI_ = baseURI__;
         else if (bytes(tokenURI__).length != 0) tokenURI_ = tokenURI__;
@@ -82,9 +94,12 @@ contract ERC721AMintImmutable is ERC721A, IERC2981, Ownable, SlicerPurchasableCo
     function royaltyInfo(
         uint256,
         uint256 salePrice
-    ) external view override returns (address receiver, uint256 royaltyAmount) {
-        receiver = owner();
-        royaltyAmount = (salePrice * royaltyFraction) / 10000;
+    ) external view override returns (address _receiver, uint256 _royaltyAmount) {
+        // return the receiver from storage
+        _receiver = royaltyReceiver;
+
+        // calculate and return the _royaltyAmount
+        _royaltyAmount = (salePrice * royaltyFraction) / MAX_ROYALTY;
     }
 
     // =============================================================

@@ -17,6 +17,7 @@ contract ERC721AMintFactory {
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        address royaltyReceiver_,
         uint256 royaltyFraction_,
         string memory baseURI__,
         string memory tokenURI__
@@ -27,6 +28,7 @@ contract ERC721AMintFactory {
                 slicerId_,
                 name_,
                 symbol_,
+                royaltyReceiver_,
                 royaltyFraction_,
                 baseURI__,
                 tokenURI__
