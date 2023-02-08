@@ -25,7 +25,7 @@ import type {
 
 export interface ERC721AMintClonerInterface extends utils.Interface {
   functions: {
-    "clone(address,uint256,string,string,uint256,string,string)": FunctionFragment;
+    "clone(address,uint256,string,string,address,uint256,string,string)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "clone"): FunctionFragment;
@@ -35,6 +35,7 @@ export interface ERC721AMintClonerInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -80,6 +81,7 @@ export interface ERC721AMintCloner extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,
@@ -92,6 +94,7 @@ export interface ERC721AMintCloner extends BaseContract {
     slicerId_: PromiseOrValue<BigNumberish>,
     name_: PromiseOrValue<string>,
     symbol_: PromiseOrValue<string>,
+    royaltyReceiver_: PromiseOrValue<string>,
     royaltyFraction_: PromiseOrValue<BigNumberish>,
     baseURI__: PromiseOrValue<string>,
     tokenURI__: PromiseOrValue<string>,
@@ -104,6 +107,7 @@ export interface ERC721AMintCloner extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,
@@ -119,6 +123,7 @@ export interface ERC721AMintCloner extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,
@@ -132,6 +137,7 @@ export interface ERC721AMintCloner extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,

@@ -29,7 +29,7 @@ import type {
 
 export interface ERC721AMintFactoryInterface extends utils.Interface {
   functions: {
-    "deploy(address,uint256,string,string,uint256,string,string)": FunctionFragment;
+    "deploy(address,uint256,string,string,address,uint256,string,string)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "deploy"): FunctionFragment;
@@ -39,6 +39,7 @@ export interface ERC721AMintFactoryInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -98,6 +99,7 @@ export interface ERC721AMintFactory extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,
@@ -110,6 +112,7 @@ export interface ERC721AMintFactory extends BaseContract {
     slicerId_: PromiseOrValue<BigNumberish>,
     name_: PromiseOrValue<string>,
     symbol_: PromiseOrValue<string>,
+    royaltyReceiver_: PromiseOrValue<string>,
     royaltyFraction_: PromiseOrValue<BigNumberish>,
     baseURI__: PromiseOrValue<string>,
     tokenURI__: PromiseOrValue<string>,
@@ -122,6 +125,7 @@ export interface ERC721AMintFactory extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,
@@ -142,6 +146,7 @@ export interface ERC721AMintFactory extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,
@@ -155,6 +160,7 @@ export interface ERC721AMintFactory extends BaseContract {
       slicerId_: PromiseOrValue<BigNumberish>,
       name_: PromiseOrValue<string>,
       symbol_: PromiseOrValue<string>,
+      royaltyReceiver_: PromiseOrValue<string>,
       royaltyFraction_: PromiseOrValue<BigNumberish>,
       baseURI__: PromiseOrValue<string>,
       tokenURI__: PromiseOrValue<string>,

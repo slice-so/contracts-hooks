@@ -116,12 +116,12 @@ export interface Payable extends BaseContract {
       arg4: PromiseOrValue<BytesLike>,
       arg5: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<[boolean] & { isAllowed: boolean }>;
+    ): Promise<[boolean]>;
 
     onProductPurchase(
       slicerId: PromiseOrValue<BigNumberish>,
       productId: PromiseOrValue<BigNumberish>,
-      account: PromiseOrValue<string>,
+      buyer: PromiseOrValue<string>,
       quantity: PromiseOrValue<BigNumberish>,
       slicerCustomData: PromiseOrValue<BytesLike>,
       buyerCustomData: PromiseOrValue<BytesLike>,
@@ -146,7 +146,7 @@ export interface Payable extends BaseContract {
   onProductPurchase(
     slicerId: PromiseOrValue<BigNumberish>,
     productId: PromiseOrValue<BigNumberish>,
-    account: PromiseOrValue<string>,
+    buyer: PromiseOrValue<string>,
     quantity: PromiseOrValue<BigNumberish>,
     slicerCustomData: PromiseOrValue<BytesLike>,
     buyerCustomData: PromiseOrValue<BytesLike>,
@@ -171,7 +171,7 @@ export interface Payable extends BaseContract {
     onProductPurchase(
       slicerId: PromiseOrValue<BigNumberish>,
       productId: PromiseOrValue<BigNumberish>,
-      account: PromiseOrValue<string>,
+      buyer: PromiseOrValue<string>,
       quantity: PromiseOrValue<BigNumberish>,
       slicerCustomData: PromiseOrValue<BytesLike>,
       buyerCustomData: PromiseOrValue<BytesLike>,
@@ -197,7 +197,7 @@ export interface Payable extends BaseContract {
     onProductPurchase(
       slicerId: PromiseOrValue<BigNumberish>,
       productId: PromiseOrValue<BigNumberish>,
-      account: PromiseOrValue<string>,
+      buyer: PromiseOrValue<string>,
       quantity: PromiseOrValue<BigNumberish>,
       slicerCustomData: PromiseOrValue<BytesLike>,
       buyerCustomData: PromiseOrValue<BytesLike>,
@@ -223,7 +223,7 @@ export interface Payable extends BaseContract {
     onProductPurchase(
       slicerId: PromiseOrValue<BigNumberish>,
       productId: PromiseOrValue<BigNumberish>,
-      account: PromiseOrValue<string>,
+      buyer: PromiseOrValue<string>,
       quantity: PromiseOrValue<BigNumberish>,
       slicerCustomData: PromiseOrValue<BytesLike>,
       buyerCustomData: PromiseOrValue<BytesLike>,

@@ -12,6 +12,11 @@ import type {
 const _abi = [
   {
     inputs: [],
+    name: "NoDelegatecall",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "NotAllowed",
     type: "error",
   },
@@ -67,7 +72,7 @@ const _abi = [
     outputs: [
       {
         internalType: "bool",
-        name: "isAllowed",
+        name: "",
         type: "bool",
       },
     ],
@@ -88,7 +93,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "account",
+        name: "buyer",
         type: "address",
       },
       {

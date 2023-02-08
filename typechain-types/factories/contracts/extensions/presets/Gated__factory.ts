@@ -130,7 +130,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "account",
+        name: "buyer",
         type: "address",
       },
       {

@@ -67,7 +67,7 @@ const _abi = [
     outputs: [
       {
         internalType: "bool",
-        name: "isAllowed",
+        name: "",
         type: "bool",
       },
     ],
@@ -88,7 +88,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "account",
+        name: "buyer",
         type: "address",
       },
       {
