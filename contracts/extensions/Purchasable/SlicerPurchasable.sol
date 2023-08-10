@@ -27,6 +27,15 @@ abstract contract SlicerPurchasable is ISlicerPurchasable {
     address internal _productsModuleAddress;
     /// Id of the slicer able to call the functions with the `OnlyOnPurchaseFrom` function
     uint256 internal _slicerId;
+    
+    /**
+     * @param productsModuleAddress Known Slicer products module contract that will call onProductPurchase
+     * @param slicerId Slicer id to associate with.
+     */
+    constructor(address productsModuleAddress, uint256 slicerId) {
+        _productsModuleAddress = productsModuleAddress;
+        _slicerId = slicerId;
+    }
 
     /// ============ Modifiers ============
 
