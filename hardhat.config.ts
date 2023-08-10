@@ -27,6 +27,24 @@ module.exports = {
         mnemonic: process.env.MNEMONIC,
       },
     },
+    base: {
+      url: process.env.URL_BASE,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+    },
+    baseGoerli: {
+      url: process.env.URL_BASE_GOERLI,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+    },
+    optimism: {
+      url: process.env.URL_OPTIMISM,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+    },
     mainnet: {
       url: process.env.URL_MAINNET,
       accounts: {
@@ -55,7 +73,38 @@ module.exports = {
     timeout: 40000,
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_KEY,
+    apiKey: {
+      mainnet: process.env.ETHERSCAN_KEY_MAINNET,
+      baseGoerli: process.env.ETHERSCAN_KEY_BASE_GOERLI,
+      base: process.env.ETHERSCAN_KEY_BASE,
+      optimism: process.env.ETHERSCAN_KEY_OPTIMISM,
+    },
+    customChains: [
+      {
+        network: "baseGoerli",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://api-goerli.basescan.org/api",
+          browserURL: "https://goerli.basescan.org",
+        },
+      },
+      {
+        network: "base",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.basescan.org/api",
+          browserURL: "https://basescan.org",
+        },
+      },
+      {
+        network: "optimism",
+        chainId: 10,
+        urls: {
+          apiURL: "https://api-optimistic.etherscan.io/api",
+          browserURL: "https://optimistic.etherscan.io",
+        },
+      },
+    ],
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS ? true : false,
