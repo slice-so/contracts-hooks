@@ -26,21 +26,14 @@ contract ERC20GatedCloner {
     /**
      * @notice Deploy and initialize proxy clone.
      */
-    function clone(
-        address productsModuleAddress_,
-        uint256 slicerId_,
-        IERC20 erc20_,
-        uint256 gateAmount_
-    ) external returns (address contractAddress) {
+    function clone(address productsModuleAddress_, uint256 slicerId_, IERC20 erc20_, uint256 gateAmount_)
+        external
+        returns (address contractAddress)
+    {
         // Deploys proxy clone
         contractAddress = Clones.clone(implementation);
 
         // Initialize proxy
-        ERC20GatedClone(contractAddress).initialize(
-            productsModuleAddress_,
-            slicerId_,
-            erc20_,
-            gateAmount_
-        );
+        ERC20GatedClone(contractAddress).initialize(productsModuleAddress_, slicerId_, erc20_, gateAmount_);
     }
 }

@@ -8,4 +8,15 @@ fs_permissions = [
 ]
 
 [rpc_endpoints]
-op = "${OPTIMISM_RPC_URL}"
+mainnet = "${RPC_URL_MAINNET}"
+goerli = "${RPC_URL_GOERLI}"
+op = "${RPC_URL_OPTIMISM}"
+base = "${RPC_URL_BASE}"
+base-goerli = "${RPC_URL_BASE_GOERLI}"
+
+[etherscan]
+mainnet = {key = "${ETHERSCAN_API_KEY_ETHEREUM}"}
+goerli = {key = "${ETHERSCAN_API_KEY_ETHEREUM}", url = "https://api-goerli.etherscan.io/api"}
+op = {key = "${ETHERSCAN_API_KEY_OPTIMISM}"}
+base = {key = "${ETHERSCAN_API_KEY_BASE}", chain = 8453, url = "https://api.basescan.org/api"}
+base-goerli = {key = "", chain = 84531, url = "https://api-goerli.basescan.org/api"}
