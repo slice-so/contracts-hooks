@@ -11,7 +11,7 @@ abstract contract ERC721Gated is SlicerPurchasable {
     /// ============= Storage =============
 
     IERC721[] internal _erc721;
-    uint256[] internal _quantities;
+    uint256 internal _minQuantity;
 
     /// ============ Functions ============
 
@@ -30,19 +30,20 @@ abstract contract ERC721Gated is SlicerPurchasable {
         override
         returns (bool isAllowed)
     {
+        uint256 owned;
+
         for (uint256 i; i < _erc721.length;) {
             /// check if user has the amount of NFT required
-            if (_erc721[i].balanceOf(account) >= _quantities[i]) {
-                isAllowed = true;
-            } else {
-                isAllowed = false;
-                break;
+            if (_erc721[i].balanceOf(account) > 0) {
+                owned++;
             }
 
             unchecked {
                 ++i;
             }
         }
+
+        return owned >= _minQuantity;
     }
 
     /**

@@ -16,9 +16,9 @@ contract ERC721GatedFactory {
         address productsModuleAddress_,
         uint256 slicerId_,
         IERC721[] memory erc721_,
-        uint256[] memory quantities_
+        uint256 minQuantity_
     ) external returns (address contractAddress) {
-        contractAddress = address(new ERC721GatedImmutable(productsModuleAddress_, slicerId_, erc721_, quantities_));
+        contractAddress = address(new ERC721GatedImmutable(productsModuleAddress_, slicerId_, erc721_, minQuantity_));
 
         emit ContractCreated(contractAddress);
     }
