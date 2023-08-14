@@ -3,3 +3,5 @@ forge-std/=lib/forge-std/src/
 @openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
 @solmate/=lib/solmate/src
+@erc721a/=lib/ERC721A/
+@erc721a-upgradeable/=lib/ERC721A-Upgradeable/

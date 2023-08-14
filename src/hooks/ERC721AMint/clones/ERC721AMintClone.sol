@@ -2,19 +2,14 @@
 pragma solidity ^0.8.0;
 
 import "../../../extensions/Purchasable/SlicerPurchasableClone.sol";
-import "erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
+import "@erc721a-upgradeable/contracts/ERC721AUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
  * ERC721AMint clone purchase hook.
  */
-contract ERC721AMintClone is
-    Initializable,
-    ERC721AUpgradeable,
-    IERC2981Upgradeable,
-    SlicerPurchasableClone
-{
+contract ERC721AMintClone is Initializable, ERC721AUpgradeable, IERC2981Upgradeable, SlicerPurchasableClone {
     // =============================================================
     //                          Errors
     // =============================================================
@@ -86,10 +81,7 @@ contract ERC721AMintClone is
         if (!_exists(tokenId)) revert URIQueryForNonexistentToken();
 
         string memory baseURI = _baseURI();
-        return
-            bytes(baseURI).length != 0
-                ? string(abi.encodePacked(baseURI, _toString(tokenId)))
-                : tokenURI_;
+        return bytes(baseURI).length != 0 ? string(abi.encodePacked(baseURI, _toString(tokenId))) : tokenURI_;
     }
 
     /**
@@ -107,10 +99,12 @@ contract ERC721AMintClone is
      * @dev Returns how much royalty is owed and to whom, based on a sale price that may be denominated in any unit of
      * exchange. The royalty amount is denominated and should be paid in that same unit of exchange.
      */
-    function royaltyInfo(
-        uint256,
-        uint256 salePrice
-    ) external view override returns (address _receiver, uint256 _royaltyAmount) {
+    function royaltyInfo(uint256, uint256 salePrice)
+        external
+        view
+        override
+        returns (address _receiver, uint256 _royaltyAmount)
+    {
         // return the receiver from storage
         _receiver = royaltyReceiver;
 
@@ -125,14 +119,12 @@ contract ERC721AMintClone is
     /**
      * @notice Overridable function to handle external calls on product purchases from slicers. See {ISlicerPurchasable}
      */
-    function onProductPurchase(
-        uint256 slicerId,
-        uint256,
-        address buyer,
-        uint256 quantity,
-        bytes memory,
-        bytes memory
-    ) public payable override onlyOnPurchaseFrom(slicerId) {
+    function onProductPurchase(uint256 slicerId, uint256, address buyer, uint256 quantity, bytes memory, bytes memory)
+        public
+        payable
+        override
+        onlyOnPurchaseFrom(slicerId)
+    {
         // Mint tokens
         _mint(buyer, quantity);
     }
@@ -149,15 +141,17 @@ contract ERC721AMintClone is
      *
      * This function call must use less than 30000 gas.
      */
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view virtual override(ERC721AUpgradeable, IERC165Upgradeable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC721AUpgradeable, IERC165Upgradeable)
+        returns (bool)
+    {
         // The interface IDs are constants representing the first 4 bytes
         // of the XOR of all function selectors in the interface.
         // See: [ERC165](https://eips.ethereum.org/EIPS/eip-165)
         // (e.g. `bytes4(i.functionA.selector ^ i.functionB.selector ^ ...)`)
-        return
-            ERC721AUpgradeable.supportsInterface(interfaceId) ||
-            interfaceId == type(IERC2981Upgradeable).interfaceId;
+        return ERC721AUpgradeable.supportsInterface(interfaceId) || interfaceId == type(IERC2981Upgradeable).interfaceId;
     }
 }

@@ -10,6 +10,3 @@ out/
 # Dotenv file
 .env
 broadcast
-
-# others
-/src/utils/sliceV1
