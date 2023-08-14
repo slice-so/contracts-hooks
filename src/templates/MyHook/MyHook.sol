@@ -20,14 +20,13 @@ abstract contract MyHook is SlicerPurchasable {
      * @dev Used on the Slice interface to check whether a user is able to buy a product. See {ISlicerPurchasable}.
      * @dev Max quantity purchasable per address and total mint amount is handled on Slicer product logic
      */
-    function isPurchaseAllowed(
-        uint256,
-        uint256,
-        address,
-        uint256,
-        bytes memory,
-        bytes memory
-    ) public view virtual override returns (bool isAllowed) {
+    function isPurchaseAllowed(uint256, uint256, address, uint256, bytes memory, bytes memory)
+        public
+        view
+        virtual
+        override
+        returns (bool isAllowed)
+    {
         // Add all requirements related to product purchase here
         // Return true if account is allowed to buy product
         isAllowed = true;
@@ -47,16 +46,9 @@ abstract contract MyHook is SlicerPurchasable {
         bytes memory buyerCustomData
     ) public payable override onlyOnPurchaseFrom(slicerId) {
         // Check whether the account is allowed to buy a product.
-        if (
-            !isPurchaseAllowed(
-                slicerId,
-                productId,
-                account,
-                quantity,
-                slicerCustomData,
-                buyerCustomData
-            )
-        ) revert NotAllowed();
+        if (!isPurchaseAllowed(slicerId, productId, account, quantity, slicerCustomData, buyerCustomData)) {
+            revert NotAllowed();
+        }
 
         // Add product purchase logic here
     }
