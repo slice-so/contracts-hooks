@@ -29,12 +29,13 @@ contract ERC721GatedCloner {
     function clone(
         address productsModuleAddress_,
         uint256 slicerId_,
-        IERC721 erc721_
+        IERC721[] memory erc721_,
+        uint256[] memory quantities_
     ) external returns (address contractAddress) {
         // Deploys proxy clone
         contractAddress = Clones.clone(implementation);
 
         // Initialize proxy
-        ERC721GatedClone(contractAddress).initialize(productsModuleAddress_, slicerId_, erc721_);
+        ERC721GatedClone(contractAddress).initialize(productsModuleAddress_, slicerId_, erc721_, quantities_);
     }
 }

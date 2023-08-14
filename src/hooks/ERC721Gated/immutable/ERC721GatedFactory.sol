@@ -15,11 +15,10 @@ contract ERC721GatedFactory {
     function deploy(
         address productsModuleAddress_,
         uint256 slicerId_,
-        IERC721 erc721_
+        IERC721[] memory erc721_,
+        uint256[] memory quantities_
     ) external returns (address contractAddress) {
-        contractAddress = address(
-            new ERC721GatedImmutable(productsModuleAddress_, slicerId_, erc721_)
-        );
+        contractAddress = address(new ERC721GatedImmutable(productsModuleAddress_, slicerId_, erc721_, quantities_));
 
         emit ContractCreated(contractAddress);
     }

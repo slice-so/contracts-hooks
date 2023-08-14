@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "../../extensions/Purchasable/SlicerPurchasable.sol";
-import "@openzeppelin/contracts/interfaces/IERC721.sol";
+import {IERC721} from "@openzeppelin/contracts/interfaces/IERC721.sol";
 
 /**
  * Purchase hook with single ERC20 Gate.
@@ -10,7 +10,8 @@ import "@openzeppelin/contracts/interfaces/IERC721.sol";
 abstract contract ERC721Gated is SlicerPurchasable {
     /// ============= Storage =============
 
-    IERC721 internal _erc721;
+    IERC721[] internal _erc721;
+    uint256[] internal _quantities;
 
     /// ============ Functions ============
 
@@ -22,17 +23,26 @@ abstract contract ERC721Gated is SlicerPurchasable {
      * @dev Used on the Slice interface to check whether a user is able to buy a product. See {ISlicerPurchasable}.
      * @dev Max quantity purchasable per address and total mint amount is handled on Slicer product logic
      */
-    function isPurchaseAllowed(
-        uint256,
-        uint256,
-        address account,
-        uint256,
-        bytes memory,
-        bytes memory
-    ) public view virtual override returns (bool isAllowed) {
-        uint256 accountBalance = _erc721.balanceOf(account);
+    function isPurchaseAllowed(uint256, uint256, address account, uint256, bytes memory, bytes memory)
+        public
+        view
+        virtual
+        override
+        returns (bool isAllowed)
+    {
+        for (uint256 i; i < _erc721.length;) {
+            /// check if user has the amount of NFT required
+            if (_erc721[i].balanceOf(account) >= _quantities[i]) {
+                isAllowed = true;
+            } else {
+                isAllowed = false;
+                break;
+            }
 
-        isAllowed = accountBalance != 0;
+            unchecked {
+                ++i;
+            }
+        }
     }
 
     /**
@@ -47,15 +57,8 @@ abstract contract ERC721Gated is SlicerPurchasable {
         bytes memory buyerCustomData
     ) public payable override onlyOnPurchaseFrom(slicerId) {
         // Check whether the account is allowed to buy a product.
-        if (
-            !isPurchaseAllowed(
-                slicerId,
-                productId,
-                account,
-                quantity,
-                slicerCustomData,
-                buyerCustomData
-            )
-        ) revert NotAllowed();
+        if (!isPurchaseAllowed(slicerId, productId, account, quantity, slicerCustomData, buyerCustomData)) {
+            revert NotAllowed();
+        }
     }
 }
