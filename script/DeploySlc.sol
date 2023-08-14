@@ -14,6 +14,7 @@ contract DeploySlc is Script {
         vm.startBroadcast(deployer);
 
         slc = new SLC(productsModule, fundsModule);
+
         vm.stopBroadcast();
     }
 }
