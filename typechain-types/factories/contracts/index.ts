@@ -5,3 +5,4 @@ export * as extensions from "./extensions";
 export * as hooks from "./hooks";
 export * as templates from "./templates";
 export * as utils from "./utils";
+export { SLC__factory } from "./SLC__factory";

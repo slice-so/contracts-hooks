@@ -5,3 +5,4 @@ import type * as juiceboxV1 from "./juiceboxV1";
 export type { juiceboxV1 };
 import type * as sliceV1 from "./sliceV1";
 export type { sliceV1 };
+export type { SLC } from "./SLC";

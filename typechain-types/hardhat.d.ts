@@ -325,6 +325,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721GatedImmutable__factory>;
     getContractFactory(
+      name: "BaseDayOne",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BaseDayOne__factory>;
+    getContractFactory(
+      name: "IERC721Drop",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Drop__factory>;
+    getContractFactory(
+      name: "SLC",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SLC__factory>;
+    getContractFactory(
       name: "MyHookClone",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyHookClone__factory>;
@@ -557,6 +569,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YearnYielder__factory>;
     getContractFactory(
+      name: "SLC",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SLC__factory>;
+    getContractFactory(
       name: "FundsModule",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FundsModule__factory>;
@@ -636,6 +652,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC721A",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721A__factory>;
+    getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
 
     getContractAt(
       name: "AggregatorV3Interface",
@@ -1028,6 +1048,21 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC721GatedImmutable>;
     getContractAt(
+      name: "BaseDayOne",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BaseDayOne>;
+    getContractAt(
+      name: "IERC721Drop",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Drop>;
+    getContractAt(
+      name: "SLC",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SLC>;
+    getContractAt(
       name: "MyHookClone",
       address: string,
       signer?: ethers.Signer
@@ -1318,6 +1353,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.YearnYielder>;
     getContractAt(
+      name: "SLC",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SLC>;
+    getContractAt(
       name: "FundsModule",
       address: string,
       signer?: ethers.Signer
@@ -1417,6 +1457,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC721A>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
 
     // default types
     getContractFactory(

@@ -5,3 +5,4 @@ export * as allowlisted from "./Allowlisted";
 export * as erc20Gated from "./ERC20Gated";
 export * as erc721AMint from "./ERC721AMint";
 export * as erc721Gated from "./ERC721Gated";
+export * as onchainSummer from "./onchainSummer";

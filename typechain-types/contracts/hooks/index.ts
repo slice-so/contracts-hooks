@@ -9,3 +9,5 @@ import type * as erc721AMint from "./ERC721AMint";
 export type { erc721AMint };
 import type * as erc721Gated from "./ERC721Gated";
 export type { erc721Gated };
+import type * as onchainSummer from "./onchainSummer";
+export type { onchainSummer };

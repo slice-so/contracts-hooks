@@ -3,3 +3,4 @@
 /* eslint-disable */
 export * as juiceboxV1 from "./juiceboxV1";
 export * as sliceV1 from "./sliceV1";
+export { SLC__factory } from "./SLC__factory";

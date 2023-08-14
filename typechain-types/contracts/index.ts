@@ -9,3 +9,4 @@ import type * as templates from "./templates";
 export type { templates };
 import type * as utils from "./utils";
 export type { utils };
+export type { SLC } from "./SLC";
