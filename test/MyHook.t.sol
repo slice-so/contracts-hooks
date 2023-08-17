@@ -4,14 +4,14 @@ pragma solidity ^0.8;
 import "forge-std/console2.sol";
 import "./helper/Setup.sol";
 import "src/templates/MyHook/MyHook.sol";
-import {SummerZorb_SliceHook} from "src/onchainSummer/onchainSummer.sol";
+import {SummerKevin_SliceHook} from "src/onchainSummer/onchainSummer.sol";
 
 contract MyHookTest is Setup {
     //*********************************************************************//
     // ----------------------------- storage ----------------------------- //
     //*********************************************************************//
 
-    SummerZorb_SliceHook public myHook;
+    SummerKevin_SliceHook public myHook;
 
     //*********************************************************************//
     // ------------------------------ setup ------------------------------ //
@@ -23,7 +23,7 @@ contract MyHookTest is Setup {
         string memory RPC_URL_BASE = vm.envString("RPC_URL_BASE");
         vm.createSelectFork(RPC_URL_BASE);
 
-        myHook = new SummerZorb_SliceHook(
+        myHook = new SummerKevin_SliceHook(
             address(1)
         );
     }
@@ -33,6 +33,8 @@ contract MyHookTest is Setup {
     //*********************************************************************//
 
     function testDeploy() public {
-        myHook.onProductPurchase{value: 0.000777 ether}(1, 1, address(2), 1, "", "");
+        uint256 price = 0.001 ether;
+
+        myHook.onProductPurchase{value: price}(1, 1, address(2), 1, "", "");
     }
 }

@@ -6,3 +6,4 @@ import {NewEra_SliceHook} from "./2/NewEra.sol";
 import {CocaCola_SliceHook} from "./3/CocaCola.sol";
 import {StandWithCrypto_SliceHook} from "./4/StandWithCrypto.sol";
 import {SummerZorb_SliceHook} from "./5/SummerZorb.sol";
+import {SummerKevin_SliceHook} from "./6/SummerKevin.sol";
