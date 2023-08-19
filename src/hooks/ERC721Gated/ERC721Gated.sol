@@ -30,35 +30,35 @@ abstract contract ERC721Gated is SlicerPurchasable {
         override
         returns (bool isAllowed)
     {
-        uint256 owned;
+        unchecked {
+            uint256 owned;
+            uint256 length = erc721.length;
+            uint256 minQuantity_ = minQuantity;
 
-        for (uint256 i; i < _erc721.length;) {
-            /// check if user has the amount of NFT required
-            if (_erc721[i].balanceOf(account) > 0) {
-                owned++;
-            }
+            for (uint256 i; i < length;) {
+                if (erc721[i].balanceOf(account) > 0) {
+                    ++owned;
+                }
 
-            unchecked {
+                if (owned >= minQuantity_) {
+                    return true;
+                }
+
                 ++i;
             }
         }
-
-        return owned >= _minQuantity;
     }
 
     /**
      * @notice Overridable function to handle external calls on product purchases from slicers. See {ISlicerPurchasable}
      */
-    function onProductPurchase(
-        uint256 slicerId,
-        uint256 productId,
-        address account,
-        uint256 quantity,
-        bytes memory slicerCustomData,
-        bytes memory buyerCustomData
-    ) public payable override onlyOnPurchaseFrom(slicerId) {
+    function onProductPurchase(uint256, uint256, address account, uint256, bytes memory, bytes memory)
+        public
+        payable
+        override
+    {
         // Check whether the account is allowed to buy a product.
-        if (!isPurchaseAllowed(slicerId, productId, account, quantity, slicerCustomData, buyerCustomData)) {
+        if (!isPurchaseAllowed(0, 0, account, 0, "", "")) {
             revert NotAllowed();
         }
     }
