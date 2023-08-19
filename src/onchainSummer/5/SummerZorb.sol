@@ -2,18 +2,25 @@
 pragma solidity ^0.8.0;
 
 import "../../extensions/Purchasable/SlicerPurchasable.sol";
-import "../interfaces/IOpenEditionERC721.sol";
+import "../interfaces/IERC1155Drop.sol";
+import {IMinter1155, SalesConfig} from "../interfaces/IMinter1155.sol";
 
 /**
- * @title NewEra - Mint the New Era NFT
+ * @title SummerZorb - Mint the Summer Zorb NFT
  * @author jacopo.eth / slice
  */
-contract NewEra_SliceHook is SlicerPurchasable {
+contract SummerZorb_SliceHook is SlicerPurchasable {
     /*//////////////////////////////////////////////////////////////
                            IMMUTABLE STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0xc9Cca8E570F81a7476760279B5B19cc1130B7580);
+    IMinter1155 public constant minter = IMinter1155(0xFF8B0f870ff56870Dc5aBd6cB3E6E89c8ba2e062);
+
+    IERC1155Drop public constant nft = IERC1155Drop(0xBd52c54aB5116b1D9326352F742E6544FfdEB2cB);
+
+    address public constant referrer = 0xC64563B8a9776C47E68Ed9891A60cC81FB7c3f64;
+
+    uint256 public constant tokenId = 1;
 
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR
@@ -28,7 +35,7 @@ contract NewEra_SliceHook is SlicerPurchasable {
     //////////////////////////////////////////////////////////////*/
 
     /**
-     * @notice Purchase is allowed if `quantityLimitPerWallet` is different than 0 in active `claimCondition`
+     * @notice Purchase is allowed if block.timestamp is in the sale window
      */
     function isPurchaseAllowed(uint256, uint256, address, uint256, bytes memory, bytes memory)
         public
@@ -37,9 +44,9 @@ contract NewEra_SliceHook is SlicerPurchasable {
         override
         returns (bool isAllowed)
     {
-        ClaimCondition memory claimCondition = nft.getClaimConditionById(nft.getActiveClaimConditionId());
+        SalesConfig memory salesConfig = minter.sale(address(nft), tokenId);
 
-        isAllowed = claimCondition.quantityLimitPerWallet != 0;
+        isAllowed = salesConfig.saleStart < block.timestamp && salesConfig.saleEnd > block.timestamp;
     }
 
     /**
@@ -50,15 +57,8 @@ contract NewEra_SliceHook is SlicerPurchasable {
         payable
         override
     {
-        ClaimCondition memory claimCondition = nft.getClaimConditionById(nft.getActiveClaimConditionId());
+        bytes memory minterArguments = abi.encode(account, "Minted from base.slice.so");
 
-        nft.claim{value: msg.value}(
-            account,
-            quantity,
-            claimCondition.currency,
-            claimCondition.pricePerToken,
-            AllowlistProof(new bytes32[](0), 0, 0, address(0)),
-            ""
-        );
+        nft.mintWithRewards{value: msg.value}(minter, tokenId, quantity, minterArguments, referrer);
     }
 }

@@ -5,15 +5,15 @@ import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import "../interfaces/IOpenEditionERC721.sol";
 
 /**
- * @title NewEra - Mint the New Era NFT
+ * @title WellnessCard - Mint The Wellness Card NFT
  * @author jacopo.eth / slice
  */
-contract NewEra_SliceHook is SlicerPurchasable {
+contract WellnessCard_SliceHook is SlicerPurchasable {
     /*//////////////////////////////////////////////////////////////
                            IMMUTABLE STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0xc9Cca8E570F81a7476760279B5B19cc1130B7580);
+    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0x6a55463a66e585767c6Cce622d2018572a0aa7D1);
 
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR

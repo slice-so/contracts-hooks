@@ -5,15 +5,15 @@ import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import "../interfaces/IOpenEditionERC721.sol";
 
 /**
- * @title NewEra - Mint the New Era NFT
+ * @title SummerKevin - Mint the Summer Kevin NFT
  * @author jacopo.eth / slice
  */
-contract NewEra_SliceHook is SlicerPurchasable {
+contract SummerKevin_SliceHook is SlicerPurchasable {
     /*//////////////////////////////////////////////////////////////
                            IMMUTABLE STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0xc9Cca8E570F81a7476760279B5B19cc1130B7580);
+    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0x9d9c0C4e764117FccD2bc3548f0E95c806e6F996);
 
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR

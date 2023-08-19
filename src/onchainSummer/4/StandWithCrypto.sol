@@ -5,15 +5,21 @@ import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import "../interfaces/IOpenEditionERC721.sol";
 
 /**
- * @title NewEra - Mint the New Era NFT
+ * @title Coinbase - Mint Stand with Crypto NFTs
  * @author jacopo.eth / slice
  */
-contract NewEra_SliceHook is SlicerPurchasable {
+contract StandWithCrypto_SliceHook is SlicerPurchasable {
+    /*//////////////////////////////////////////////////////////////
+                                 ERRORS
+    //////////////////////////////////////////////////////////////*/
+
+    error MintEnded();
+
     /*//////////////////////////////////////////////////////////////
                            IMMUTABLE STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0xc9Cca8E570F81a7476760279B5B19cc1130B7580);
+    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0x874Ad7c13935F73c7bbE94efBD8e766De2A585Eb);
 
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR
@@ -51,6 +57,8 @@ contract NewEra_SliceHook is SlicerPurchasable {
         override
     {
         ClaimCondition memory claimCondition = nft.getClaimConditionById(nft.getActiveClaimConditionId());
+
+        if (claimCondition.quantityLimitPerWallet == 0) revert MintEnded();
 
         nft.claim{value: msg.value}(
             account,

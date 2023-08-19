@@ -5,22 +5,29 @@ import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import "../interfaces/IOpenEditionERC721.sol";
 
 /**
- * @title NewEra - Mint the New Era NFT
+ * @title CocaCola - Mint the Coca Cola - Bedroom in Arles NFTs
  * @author jacopo.eth / slice
  */
-contract NewEra_SliceHook is SlicerPurchasable {
+contract CocaCola_SliceHook is SlicerPurchasable {
+    /*//////////////////////////////////////////////////////////////
+                                 ERRORS
+    //////////////////////////////////////////////////////////////*/
+
+    error MintEnded();
+
     /*//////////////////////////////////////////////////////////////
                            IMMUTABLE STORAGE
     //////////////////////////////////////////////////////////////*/
 
-    IOpenEditionERC721 public constant nft = IOpenEditionERC721(0xc9Cca8E570F81a7476760279B5B19cc1130B7580);
+    IOpenEditionERC721 public immutable nft;
 
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR
     //////////////////////////////////////////////////////////////*/
 
-    constructor(address productsModuleAddress_) {
+    constructor(address productsModuleAddress_, address nft_) {
         _productsModuleAddress = productsModuleAddress_;
+        nft = IOpenEditionERC721(nft_);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -51,6 +58,8 @@ contract NewEra_SliceHook is SlicerPurchasable {
         override
     {
         ClaimCondition memory claimCondition = nft.getClaimConditionById(nft.getActiveClaimConditionId());
+
+        if (claimCondition.quantityLimitPerWallet == 0) revert MintEnded();
 
         nft.claim{value: msg.value}(
             account,
