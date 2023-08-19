@@ -5,20 +5,20 @@ import "../../extensions/Purchasable/SlicerPurchasable.sol";
 import {IERC721} from "@openzeppelin/contracts/interfaces/IERC721.sol";
 
 /**
- * Purchase hook with single ERC20 Gate.
+ * Gates purchases based on ownership of multiple ERC721 tokens.
  */
 abstract contract ERC721Gated is SlicerPurchasable {
     /// ============= Storage =============
 
-    IERC721[] internal _erc721;
-    uint256 internal _minQuantity;
+    IERC721[] public erc721;
+    uint256 public minQuantity;
 
     /// ============ Functions ============
 
     /**
      * @notice Overridable function containing the requirements for an account to be eligible for the purchase.
      *
-     * Checks if `account` owns the required amount of ERC20 tokens.
+     * Checks if `account` owns the required amount of ERC721 tokens.
      *
      * @dev Used on the Slice interface to check whether a user is able to buy a product. See {ISlicerPurchasable}.
      * @dev Max quantity purchasable per address and total mint amount is handled on Slicer product logic
