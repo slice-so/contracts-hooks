@@ -4,14 +4,20 @@ pragma solidity ^0.8;
 import "forge-std/console2.sol";
 import "./helper/Setup.sol";
 import "src/templates/MyHook/MyHook.sol";
-import {WellnessCard_SliceHook} from "src/onchainSummer/onchainSummer.sol";
+import {BasedMerch_SliceHook} from "src/onchainSummer/onchainSummer.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 
 contract MyHookTest is Setup {
     //*********************************************************************//
     // ----------------------------- storage ----------------------------- //
     //*********************************************************************//
 
-    WellnessCard_SliceHook public myHook;
+    BasedMerch_SliceHook public myHook;
+
+    bytes32 private constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    AccessControl public constant nft = AccessControl(0xfCA2e8a8BBDDCA5727F300887F3fE0ad59932B92);
 
     //*********************************************************************//
     // ------------------------------ setup ------------------------------ //
@@ -23,7 +29,7 @@ contract MyHookTest is Setup {
         string memory RPC_URL_BASE = vm.envString("RPC_URL_BASE");
         vm.createSelectFork(RPC_URL_BASE);
 
-        myHook = new WellnessCard_SliceHook(
+        myHook = new BasedMerch_SliceHook(
             address(1)
         );
     }
@@ -32,9 +38,22 @@ contract MyHookTest is Setup {
     // ------------------------------ tests ------------------------------ //
     //*********************************************************************//
 
-    function testDeploy() public {
-        uint256 price = 0.005 ether;
+    function testMint() public {
+        uint256 productId = 1;
+        uint256 quantity = 7;
 
-        myHook.onProductPurchase{value: price}(1, 1, address(2), 1, "", "");
+        myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
+
+        myHook.setToken(productId, 1, true);
+
+        vm.expectRevert();
+        myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
+
+        vm.prank(Ownable(address(nft)).owner());
+        nft.grantRole(MINTER_ROLE, address(myHook));
+
+        myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
+
+        assertEq(IERC1155(address(nft)).balanceOf(address(2), 1), quantity);
     }
 }
