@@ -30,7 +30,7 @@ contract MyHookTest is Setup {
         vm.createSelectFork(RPC_URL_BASE);
 
         myHook = new BasedMerch_SliceHook(
-            address(1)
+            address(1), 1
         );
     }
 
