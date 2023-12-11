@@ -12,4 +12,6 @@ interface ITokenERC1155 {
      *
      */
     function mintTo(address to, uint256 tokenId, string calldata uri, uint256 amount) external;
+
+    function setTokenURI(uint256 tokenId, string calldata uri) external;
 }
