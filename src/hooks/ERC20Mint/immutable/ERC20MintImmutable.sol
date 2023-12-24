@@ -33,6 +33,7 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
      * @param slicerId_ ID of the slicer linked to this contract
      * @param name_ Name of the ERC721 contract
      * @param symbol_ Symbol of the ERC721 contract
+     * @param premintReceiver Address to mint premint tokens to
      * @param premintAmount Amount of tokens to mint to the contract creator
      * @param allowedProductId_ ID of the product allowed to be purchased
      */
@@ -41,13 +42,14 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        address premintReceiver,
         uint256 premintAmount,
         uint256 allowedProductId_
     ) SlicerPurchasableConstructor(productsModuleAddress_, slicerId_) ERC20(name_, symbol_) {
         allowedProductId = allowedProductId_;
 
         if (premintAmount != 0) {
-            _mint(msg.sender, premintAmount);
+            _mint(premintReceiver, premintAmount);
         }
     }
 

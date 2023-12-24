@@ -34,6 +34,7 @@ contract ERC20MintClone is Initializable, ERC20Upgradeable, SlicerPurchasableClo
      * @param slicerId_ ID of the slicer linked to this contract
      * @param name_ Name of the ERC721 contract
      * @param symbol_ Symbol of the ERC721 contract
+     * @param premintReceiver Address to mint premint tokens to
      * @param premintAmount Amount of tokens to mint to the contract creator
      * @param allowedProductId_ ID of the product allowed to be purchased
      */
@@ -42,6 +43,7 @@ contract ERC20MintClone is Initializable, ERC20Upgradeable, SlicerPurchasableClo
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        address premintReceiver,
         uint256 premintAmount,
         uint256 allowedProductId_
     ) external initializer {
@@ -51,7 +53,7 @@ contract ERC20MintClone is Initializable, ERC20Upgradeable, SlicerPurchasableClo
         allowedProductId = allowedProductId_;
 
         if (premintAmount != 0) {
-            _mint(msg.sender, premintAmount);
+            _mint(premintReceiver, premintAmount);
         }
     }
 
