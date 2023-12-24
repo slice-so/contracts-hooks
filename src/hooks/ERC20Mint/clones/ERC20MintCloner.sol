@@ -31,12 +31,15 @@ contract ERC20MintCloner {
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        uint256 premintAmount,
         uint256 allowedProductId_
     ) external returns (address contractAddress) {
         // Deploys proxy clone
         contractAddress = Clones.clone(implementation);
 
         // Initialize proxy
-        ERC20MintClone(contractAddress).initialize(productsModuleAddress_, slicerId_, name_, symbol_, allowedProductId_);
+        ERC20MintClone(contractAddress).initialize(
+            productsModuleAddress_, slicerId_, name_, symbol_, premintAmount, allowedProductId_
+        );
     }
 }

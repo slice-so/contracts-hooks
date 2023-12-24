@@ -34,6 +34,7 @@ contract ERC20MintClone is Initializable, ERC20Upgradeable, SlicerPurchasableClo
      * @param slicerId_ ID of the slicer linked to this contract
      * @param name_ Name of the ERC721 contract
      * @param symbol_ Symbol of the ERC721 contract
+     * @param premintAmount Amount of tokens to mint to the contract creator
      * @param allowedProductId_ ID of the product allowed to be purchased
      */
     function initialize(
@@ -41,12 +42,17 @@ contract ERC20MintClone is Initializable, ERC20Upgradeable, SlicerPurchasableClo
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        uint256 premintAmount,
         uint256 allowedProductId_
     ) external initializer {
         __SlicerPurchasableClone_init(productsModuleAddress_, slicerId_);
         __ERC20_init(name_, symbol_);
 
         allowedProductId = allowedProductId_;
+
+        if (premintAmount != 0) {
+            _mint(msg.sender, premintAmount);
+        }
     }
 
     constructor() {
