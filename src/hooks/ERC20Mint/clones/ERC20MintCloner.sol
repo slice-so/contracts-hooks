@@ -31,6 +31,8 @@ contract ERC20MintCloner {
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        uint256 tokensPerUnit_,
+        uint256 maxSupply_,
         address premintReceiver,
         uint256 premintAmount,
         uint256 allowedProductId_
@@ -40,7 +42,15 @@ contract ERC20MintCloner {
 
         // Initialize proxy
         ERC20MintClone(contractAddress).initialize(
-            productsModuleAddress_, slicerId_, name_, symbol_, premintReceiver, premintAmount, allowedProductId_
+            productsModuleAddress_,
+            slicerId_,
+            name_,
+            symbol_,
+            tokensPerUnit_,
+            maxSupply_,
+            premintReceiver,
+            premintAmount,
+            allowedProductId_
         );
     }
 }

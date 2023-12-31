@@ -17,13 +17,23 @@ contract ERC20MintFactory {
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        uint256 tokensPerUnit_,
+        uint256 maxSupply_,
         address premintReceiver,
         uint256 premintAmount,
         uint256 allowedProductId_
     ) external returns (address contractAddress) {
         contractAddress = address(
             new ERC20MintImmutable(
-                productsModuleAddress_, slicerId_, name_, symbol_, premintReceiver, premintAmount, allowedProductId_
+                productsModuleAddress_,
+                slicerId_,
+                name_,
+                symbol_,
+                tokensPerUnit_,
+                maxSupply_,
+                premintReceiver,
+                premintAmount,
+                allowedProductId_
             )
         );
 

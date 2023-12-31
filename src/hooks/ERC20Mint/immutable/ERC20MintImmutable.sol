@@ -14,6 +14,7 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
     //                           Errors
     // =============================================================
 
+    error InvalidTokensPerUnit();
     error WrongProductId();
 
     // =============================================================
@@ -21,6 +22,8 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
     // =============================================================
 
     uint256 public immutable allowedProductId;
+    uint256 public immutable maxSupply;
+    uint256 public immutable tokensPerUnit;
 
     // =============================================================
     //                         Constructor
@@ -33,6 +36,8 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
      * @param slicerId_ ID of the slicer linked to this contract
      * @param name_ Name of the ERC721 contract
      * @param symbol_ Symbol of the ERC721 contract
+     * @param tokensPerUnit_ Amount of tokens to mint per unit purchased
+     * @param maxSupply_ Maximum amount of tokens that can be minted
      * @param premintReceiver Address to mint premint tokens to
      * @param premintAmount Amount of tokens to mint to the contract creator
      * @param allowedProductId_ ID of the product allowed to be purchased
@@ -42,11 +47,17 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
         uint256 slicerId_,
         string memory name_,
         string memory symbol_,
+        uint256 tokensPerUnit_,
+        uint256 maxSupply_,
         address premintReceiver,
         uint256 premintAmount,
         uint256 allowedProductId_
     ) SlicerPurchasableConstructor(productsModuleAddress_, slicerId_) ERC20(name_, symbol_) {
+        if (tokensPerUnit_ == 0) revert InvalidTokensPerUnit();
+
         allowedProductId = allowedProductId_;
+        maxSupply = maxSupply_;
+        tokensPerUnit = tokensPerUnit_;
 
         if (premintAmount != 0) {
             _mint(premintReceiver, premintAmount);
@@ -56,6 +67,26 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
     // =============================================================
     //                         Purchase hook
     // =============================================================
+
+    /**
+     * @notice Overridable function containing the requirements for the purchase.
+     *
+     * Check if `maxSupply` is exceeded.
+     */
+    function isPurchaseAllowed(uint256, uint256, address, uint256 quantity, bytes memory, bytes memory)
+        public
+        view
+        virtual
+        override
+        returns (bool isAllowed)
+    {
+        // if maxSupply is 0, there is no limit
+        if (maxSupply == 0) {
+            return true;
+        }
+
+        isAllowed = totalSupply() + (quantity * tokensPerUnit) <= maxSupply;
+    }
 
     /**
      * @notice Overridable function to handle external calls on product purchases from slicers. See {ISlicerPurchasable}
@@ -68,11 +99,13 @@ contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
         bytes memory,
         bytes memory
     ) public payable override onlyOnPurchaseFrom(slicerId) {
+        if (!isPurchaseAllowed(slicerId, productId, buyer, quantity, "", "")) revert NotAllowed();
+
         if (allowedProductId != 0) {
             if (productId != allowedProductId) revert WrongProductId();
         }
 
         // Mint tokens
-        _mint(buyer, quantity * 1e21);
+        _mint(buyer, quantity * tokensPerUnit);
     }
 }
