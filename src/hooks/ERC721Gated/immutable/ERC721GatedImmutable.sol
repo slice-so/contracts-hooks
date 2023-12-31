@@ -14,15 +14,15 @@ contract ERC721GatedImmutable is ERC721Gated {
      *
      * @param productsModuleAddress_ {ProductsModule} address
      * @param slicerId_ ID of the slicer linked to this contract
-     * @param erc721_ Address of the ERC721 contract used for gating
+     * @param erc721_ Addresses of the ERC721 contract used for gating
+     * @param minQuantity_ Min number of ERC721 tokens required for purchase
      */
-    constructor(
-        address productsModuleAddress_,
-        uint256 slicerId_,
-        IERC721 erc721_
-    ) {
+    constructor(address productsModuleAddress_, uint256 slicerId_, IERC721[] memory erc721_, uint256 minQuantity_) {
+        require(minQuantity_ <= erc721_.length, "UNEXPECTED_MIN_QUANTITY");
+
         _productsModuleAddress = productsModuleAddress_;
         _slicerId = slicerId_;
-        _erc721 = erc721_;
+        erc721 = erc721_;
+        minQuantity = minQuantity_;
     }
 }

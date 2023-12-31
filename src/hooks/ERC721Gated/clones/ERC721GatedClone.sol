@@ -21,11 +21,15 @@ contract ERC721GatedClone is ERC721Gated, Initializable {
     function initialize(
         address productsModuleAddress_,
         uint256 slicerId_,
-        IERC721 erc721_
+        IERC721[] memory erc721_,
+        uint256 minQuantity_
     ) external initializer {
+        require(minQuantity_ <= erc721_.length, "UNEXPECTED_MIN_QUANTITY");
+
         _productsModuleAddress = productsModuleAddress_;
         _slicerId = slicerId_;
-        _erc721 = erc721_;
+        erc721 = erc721_;
+        minQuantity = minQuantity_;
     }
 
     constructor() {
