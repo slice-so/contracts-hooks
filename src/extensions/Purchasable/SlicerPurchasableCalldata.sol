@@ -9,7 +9,7 @@ import "./interfaces/ISlicerPurchasable.sol";
  *
  * @notice Extension enabling basic usage of external calls by slicers upon product purchase.
  */
-abstract contract SlicerPurchasable is ISlicerPurchasable {
+abstract contract SlicerPurchasableCalldata is ISlicerPurchasable {
     /// ============ Errors ============
 
     /// @notice Thrown if not called from the correct slicer
@@ -76,7 +76,7 @@ abstract contract SlicerPurchasable is ISlicerPurchasable {
         address buyer,
         uint256 quantity,
         bytes memory slicerCustomData,
-        bytes memory buyerCustomData
+        bytes calldata buyerCustomData
     ) public payable virtual override onlyOnPurchaseFrom(slicerId) {
         // Check whether the buyer is allowed to purchase the product.
         if (!isPurchaseAllowed(slicerId, productId, buyer, quantity, slicerCustomData, buyerCustomData)) {
