@@ -87,7 +87,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
         bytes memory,
         bytes calldata buyerCustomData
     ) public payable override onlyOnPurchaseFrom(slicerId) {
-        // cast the first 3 bytes of buyerCustomData to `uint24 fid` and the 4th byte to `uint8 prize`
+        // cast the first 3 bytes of buyerCustomData to `uint24 fid`
         uint24 fid = uint24(bytes3(buyerCustomData));
 
         if (hasClaimed[fid]) revert AlreadyClaimed();
