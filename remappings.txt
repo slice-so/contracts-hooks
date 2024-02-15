@@ -1,4 +1,5 @@
 ds-test/=lib/forge-std/lib/ds-test/src/
+dn404/=lib/dn404/src/
 forge-std/=lib/forge-std/src/
 @openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
