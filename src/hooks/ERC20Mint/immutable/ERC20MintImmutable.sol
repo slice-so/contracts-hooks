@@ -2,14 +2,14 @@
 pragma solidity ^0.8.0;
 
 import "../../../extensions/Purchasable/SlicerPurchasableConstructor.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 /**
  * ERC20Mint purchase hook.
  *
  * Mints 1000 tokens for each unit purchased.
  */
-contract ERC20MintImmutable is ERC20, SlicerPurchasableConstructor {
+contract ERC20MintImmutable is ERC20Burnable, SlicerPurchasableConstructor {
     // =============================================================
     //                           Errors
     // =============================================================

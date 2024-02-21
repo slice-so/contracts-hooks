@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "../../../extensions/Purchasable/SlicerPurchasableClone.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
@@ -10,7 +10,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  *
  * Mints 1000 tokens for each unit purchased.
  */
-contract ERC20MintClone is Initializable, ERC20Upgradeable, SlicerPurchasableClone {
+contract ERC20MintClone is Initializable, ERC20BurnableUpgradeable, SlicerPurchasableClone {
     // =============================================================
     //                           Errors
     // =============================================================
