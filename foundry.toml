@@ -3,9 +3,11 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 fs_permissions = [
-  { access = "read-write", path = "./deployments/31337/data" }, 
-  { access = "read", path = "./out" }
+  { access = "read-write", path = "./deployments/31337/data" },
+  { access = "read", path = "./out" },
+  { access = "read-write", path = "./output" },
 ]
+memory_limit = 50_000_000_000
 
 [rpc_endpoints]
 mainnet = "${RPC_URL_MAINNET}"
@@ -15,8 +17,8 @@ base = "${RPC_URL_BASE}"
 base-goerli = "${RPC_URL_BASE_GOERLI}"
 
 [etherscan]
-mainnet = {key = "${ETHERSCAN_API_KEY_ETHEREUM}"}
-goerli = {key = "${ETHERSCAN_API_KEY_ETHEREUM}", url = "https://api-goerli.etherscan.io/api"}
-op = {key = "${ETHERSCAN_API_KEY_OPTIMISM}"}
-base = {key = "${ETHERSCAN_API_KEY_BASE}", chain = 8453, url = "https://api.basescan.org/api"}
-base-goerli = {key = "${ETHERSCAN_API_KEY_BASE}", chain = 84531, url = "https://api-goerli.basescan.org/api"}
+mainnet = { key = "${ETHERSCAN_API_KEY_ETHEREUM}" }
+goerli = { key = "${ETHERSCAN_API_KEY_ETHEREUM}", url = "https://api-goerli.etherscan.io/api" }
+op = { key = "${ETHERSCAN_API_KEY_OPTIMISM}" }
+base = { key = "${ETHERSCAN_API_KEY_BASE}", chain = 8453, url = "https://api.basescan.org/api" }
+base-goerli = { key = "${ETHERSCAN_API_KEY_BASE}", chain = 84531, url = "https://api-goerli.basescan.org/api" }
