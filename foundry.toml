@@ -7,7 +7,6 @@ fs_permissions = [
   { access = "read", path = "./out" },
   { access = "read-write", path = "./output" },
 ]
-memory_limit = 50_000_000_000
 
 [rpc_endpoints]
 mainnet = "${RPC_URL_MAINNET}"

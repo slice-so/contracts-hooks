@@ -3,12 +3,15 @@ pragma solidity ^0.8.19;
 
 import {console} from "forge-std/Test.sol";
 import {Script} from "forge-std/Script.sol";
+import {Base64} from "@solady/utils/Base64.sol";
+import {DynamicBufferLib} from "@solady/utils/DynamicBufferLib.sol";
 import {LibPRNG} from "@solady/utils/LibPRNG.sol";
 import {LibString} from "@solady/utils/LibString.sol";
 
 import {IColormapRegistry} from "../src/interfaces/IColormapRegistry.sol";
 
 contract Print404Script is Script {
+    using DynamicBufferLib for DynamicBufferLib.DynamicBuffer;
     using LibPRNG for LibPRNG.PRNG;
     using LibString for uint256;
 
@@ -22,7 +25,7 @@ contract Print404Script is Script {
 
     /// @notice Hash of the colormap to print.
     /// @dev Replace this as needed.
-    bytes8 constant COLORMAP_HASH = bytes8(0xfd29b65966772202);
+    bytes8 constant COLORMAP_HASH = bytes8(0x864a6ee98b9b21ac);
 
     /// @notice Seed for the output.
     /// @dev Replace this as needed.
@@ -34,7 +37,8 @@ contract Print404Script is Script {
 
     function run() public {
         // First, create the seed.
-        LibPRNG.PRNG memory prng = LibPRNG.PRNG(uint256(keccak256(abi.encodePacked(SEED))));
+        LibPRNG.PRNG memory prng = LibPRNG.PRNG(SEED);
+        prng.next();
 
         // We do 512 iterations of the Drunken Bishop algorithm.
         uint256 index;
@@ -110,31 +114,62 @@ contract Print404Script is Script {
         }
 
         // SVG generation.
-        string memory svg = "";
+        DynamicBufferLib.DynamicBuffer memory buffer;
         unchecked {
             for (uint256 i; i < 4096; ++i) {
                 uint16 color = counts[i];
                 assembly {
                     color := div(mul(color, 255), max)
                 }
-                svg = string.concat(
-                    svg,
-                    '<path d="M',
-                    (i & 0x3f).toString(),
-                    " ",
-                    (i >> 6).toString(),
-                    'h1v1h-1z" fill="#',
-                    COLORMAP_REGISTRY.getValueAsHexString(COLORMAP_HASH, uint8(color)),
-                    '"/>'
+                buffer.p(
+                    abi.encodePacked(
+                        '<path d="M',
+                        (i & 0x3f).toString(),
+                        " ",
+                        (i >> 6).toString(),
+                        'h1v1h-1z" fill="#',
+                        COLORMAP_REGISTRY.getValueAsHexString(COLORMAP_HASH, uint8(color)),
+                        '"/>'
+                    )
                 );
             }
         }
+
+        (uint8 r0, uint8 g0, uint8 b0) = COLORMAP_REGISTRY.getValueAsUint8(COLORMAP_HASH, 0);
         vm.writeFile(
-            "./output/404.svg",
             string.concat(
-                '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 64 64" fill="none">',
-                svg,
-                "</svg>"
+                "./output/404-",
+                SEED.toString(),
+                "-",
+                (uint256(bytes32(COLORMAP_HASH)) >> 224).toHexStringNoPrefix(4),
+                ".txt"
+            ),
+            string.concat(
+                "data:json/application;base64,",
+                Base64.encode(
+                    abi.encodePacked(
+                        '{"name":"FC404 #',
+                        SEED.toString(),
+                        '",',
+                        '"image_data":"data:image/svg+xml;base64,',
+                        Base64.encode(
+                            abi.encodePacked(
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1152 1152" fill="none"><path d="M0 0h1152v1152H0z" fill="#',
+                                COLORMAP_REGISTRY.getValueAsHexString(COLORMAP_HASH, uint8(SEED)),
+                                '"/><svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64" transform="translate(64 64)">',
+                                buffer.data,
+                                '<g fill="#',
+                                uint256(0xff - r0).toHexStringNoPrefix(1),
+                                uint256(0xff - g0).toHexStringNoPrefix(1),
+                                uint256(0xff - b0).toHexStringNoPrefix(1),
+                                '"><path d="M13 23h3v2h-3zm0 2h2v1h-2zm-1 1h3v2h-3zm-1 2h3v2h-3zm-1 2h3v3h-3zm-1 3h3v4H9zm3 2h9v2h-9z"/><path d="M16 30h3v11h-3zm11-7h10v2H27zm-2 2h14v1H25zm1 1h4v1h-4zm8 0h4v1h-4zm-8 1h3v1h-3zm9 0h3v1h-3zm-9 1h2v8h-2zm10 0h2v8h-2zm-10 8h3v1h-3zm9 0h3v1h-3zm-9 1h4v1h-4zm8 0h4v1h-4zm-9 1h14v1H25zm2 1h10v2H27zm20-16h3v2h-3zm0 2h2v1h-2zm-1 1h3v2h-3zm-1 2h3v2h-3zm-1 2h3v3h-3zm-1 3h3v4h-3zm3 2h9v2h-9z"/><path d="M50 30h3v11h-3z"/></g></svg></svg>'
+                            )
+                        ),
+                        '","attributes":[{"trait_type":"Colormap","value":"',
+                        (uint256(bytes32(COLORMAP_HASH)) >> 224).toHexStringNoPrefix(4),
+                        '"}]}'
+                    )
+                )
             )
         );
     }
