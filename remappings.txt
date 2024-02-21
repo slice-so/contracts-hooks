@@ -5,3 +5,4 @@ forge-std/=lib/forge-std/src/
 @solmate/=lib/solmate/src
 @erc721a/=lib/ERC721A/
 @erc721a-upgradeable/=lib/ERC721A-Upgradeable/
+@solady/=lib/solady/src
