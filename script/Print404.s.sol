@@ -144,16 +144,27 @@ contract Print404Script is Script {
                 ".txt"
             ),
             string.concat(
-                "data:image/svg+xml;base64,",
+                "data:json/application;base64,",
                 Base64.encode(
                     abi.encodePacked(
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64" fill="none">',
-                        buffer.data,
-                        '<g fill="#',
-                        uint256(0xff - r).toHexStringNoPrefix(1),
-                        uint256(0xff - g).toHexStringNoPrefix(1),
-                        uint256(0xff - b).toHexStringNoPrefix(1),
-                        '"><path d="M13 23h3v2h-3zm0 2h2v1h-2zm-1 1h3v2h-3zm-1 2h3v2h-3zm-1 2h3v3h-3zm-1 3h3v4H9zm3 2h9v2h-9z"/><path d="M16 30h3v11h-3zm11-7h10v2H27zm-2 2h14v1H25zm1 1h4v1h-4zm8 0h4v1h-4zm-8 1h3v1h-3zm9 0h3v1h-3zm-9 1h2v8h-2zm10 0h2v8h-2zm-10 8h3v1h-3zm9 0h3v1h-3zm-9 1h4v1h-4zm8 0h4v1h-4zm-9 1h14v1H25zm2 1h10v2H27zm20-16h3v2h-3zm0 2h2v1h-2zm-1 1h3v2h-3zm-1 2h3v2h-3zm-1 2h3v3h-3zm-1 3h3v4h-3zm3 2h9v2h-9z"/><path d="M50 30h3v11h-3z"/></g></svg>'
+                        '{"name":"FC404 #',
+                        SEED.toString(),
+                        '",',
+                        '"image_data":"data:image/svg+xml;base64,',
+                        Base64.encode(
+                            abi.encodePacked(
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 64 64" fill="none">',
+                                buffer.data,
+                                '<g fill="#',
+                                uint256(0xff - r).toHexStringNoPrefix(1),
+                                uint256(0xff - g).toHexStringNoPrefix(1),
+                                uint256(0xff - b).toHexStringNoPrefix(1),
+                                '"><path d="M13 23h3v2h-3zm0 2h2v1h-2zm-1 1h3v2h-3zm-1 2h3v2h-3zm-1 2h3v3h-3zm-1 3h3v4H9zm3 2h9v2h-9z"/><path d="M16 30h3v11h-3zm11-7h10v2H27zm-2 2h14v1H25zm1 1h4v1h-4zm8 0h4v1h-4zm-8 1h3v1h-3zm9 0h3v1h-3zm-9 1h2v8h-2zm10 0h2v8h-2zm-10 8h3v1h-3zm9 0h3v1h-3zm-9 1h4v1h-4zm8 0h4v1h-4zm-9 1h14v1H25zm2 1h10v2H27zm20-16h3v2h-3zm0 2h2v1h-2zm-1 1h3v2h-3zm-1 2h3v2h-3zm-1 2h3v3h-3zm-1 3h3v4h-3zm3 2h9v2h-9z"/><path d="M50 30h3v11h-3z"/></g></svg>'
+                            )
+                        ),
+                        '","attributes":[{"trait_type":"Colormap","value":"',
+                        (uint256(bytes32(COLORMAP_HASH)) >> 224).toHexStringNoPrefix(4),
+                        '"}]}'
                     )
                 )
             )
