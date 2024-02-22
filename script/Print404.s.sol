@@ -28,7 +28,9 @@ contract Print404Script is Script {
     // -------------------------------------------------------------------------
 
     function run() public {
-        _generateAndWrite({_seed: 0, _colormapHash: bytes8(0x864a6ee98b9b21ac), _iterations: 512});
+        for (uint256 i = 2; i < 1024; i <<= 1) {
+            _generateAndWrite({_seed: 0, _colormapHash: bytes8(0x864a6ee98b9b21ac), _iterations: i});
+        }
     }
 
     function _generateAndWrite(uint256 _seed, bytes8 _colormapHash, uint256 _iterations) internal {
