@@ -3,7 +3,9 @@ pragma solidity ^0.8.0;
 
 import "dn404/DN404.sol";
 import "dn404/DN404Mirror.sol";
+
 import "../extensions/Purchasable/SlicerPurchasableImmutable.sol";
+import {FC404Metadata} from "./utils/FC404Metadata.sol";
 
 contract FC404 is DN404, SlicerPurchasableImmutable {
     /*//////////////////////////////////////////////////////////////
@@ -11,6 +13,9 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     //////////////////////////////////////////////////////////////*/
 
     error AlreadyClaimed();
+
+    /// @notice Emitted when a token hasn't been minted.
+    error TokenUnminted();
 
     /*//////////////////////////////////////////////////////////////
                            IMMUTABLE STORAGE
@@ -111,8 +116,13 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
         return _symbol;
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        return "";
+    /// @inheritdoc DN404
+    function tokenURI(uint256 _id) public view override returns (string memory) {
+        // Revert if the token hasn't been minted.
+        if (_ownerOf(_id) == address(0)) revert TokenUnminted();
+
+        // Generate and return metadata.
+        return FC404Metadata.render(_id);
     }
 
     /*//////////////////////////////////////////////////////////////
