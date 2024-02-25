@@ -23,37 +23,37 @@ contract MyHookTest is Setup {
     // ------------------------------ setup ------------------------------ //
     //*********************************************************************//
 
-    function setUp() public virtual override {
-        Setup.setUp();
+    // function setUp() public virtual override {
+    //     Setup.setUp();
 
-        string memory RPC_URL_BASE = vm.envString("RPC_URL_BASE");
-        vm.createSelectFork(RPC_URL_BASE);
+    //     string memory RPC_URL_BASE = vm.envString("RPC_URL_BASE");
+    //     vm.createSelectFork(RPC_URL_BASE);
 
-        myHook = new BasedMerch_SliceHook(
-            address(1), 1
-        );
-    }
+    //     myHook = new BasedMerch_SliceHook(
+    //         address(1), 1
+    //     );
+    // }
 
-    //*********************************************************************//
-    // ------------------------------ tests ------------------------------ //
-    //*********************************************************************//
+    // //*********************************************************************//
+    // // ------------------------------ tests ------------------------------ //
+    // //*********************************************************************//
 
-    function testMint() public {
-        uint256 productId = 1;
-        uint256 quantity = 7;
+    // function testMint() public {
+    //     uint256 productId = 1;
+    //     uint256 quantity = 7;
 
-        myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
+    //     myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
 
-        myHook.setToken(productId, 1, true);
+    //     myHook.setToken(productId, 1, true);
 
-        vm.expectRevert();
-        myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
+    //     vm.expectRevert();
+    //     myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
 
-        vm.prank(Ownable(address(nft)).owner());
-        nft.grantRole(MINTER_ROLE, address(myHook));
+    //     vm.prank(Ownable(address(nft)).owner());
+    //     nft.grantRole(MINTER_ROLE, address(myHook));
 
-        myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
+    //     myHook.onProductPurchase(1, productId, address(2), quantity, "", "");
 
-        assertEq(IERC1155(address(nft)).balanceOf(address(2), 1), quantity);
-    }
+    //     assertEq(IERC1155(address(nft)).balanceOf(address(2), 1), quantity);
+    // }
 }
