@@ -40,6 +40,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     ];
 
     // Supply value under which the free mint stage applies
+    uint256 internal constant FIRST_STAGE_NFT_UNITS = 500;
     uint256 internal immutable FIRST_STAGE_TOKEN_AMOUNT;
 
     /*//////////////////////////////////////////////////////////////
@@ -79,7 +80,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
         address mirror = address(new DN404Mirror(msg.sender));
         _initializeDN404(initialTokenSupply, initialSupplyOwner, mirror);
 
-        FIRST_STAGE_TOKEN_AMOUNT = initialTokenSupply + (1000 * _unit());
+        FIRST_STAGE_TOKEN_AMOUNT = initialTokenSupply + (FIRST_STAGE_NFT_UNITS * _unit());
     }
 
     // Edited to mint both tokens and nfts to `initialSupplyOwner`
@@ -89,8 +90,8 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     {
         DN404Storage storage $ = _getDN404Storage();
 
-        if ($.nextTokenId != 0) revert DNAlreadyInitialized();
-
+        if (_unit() == 0) revert UnitIsZero();
+        if ($.mirrorERC721 != address(0)) revert DNAlreadyInitialized();
         if (mirror == address(0)) revert MirrorAddressIsZero();
 
         /// @solidity memory-safe-assembly
@@ -106,8 +107,6 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
 
         $.nextTokenId = 1;
         $.mirrorERC721 = mirror;
-
-        if (_unit() == 0) revert UnitIsZero();
 
         if (initialTokenSupply != 0) {
             _mint(initialSupplyOwner, initialTokenSupply);
@@ -141,9 +140,9 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
             }
 
             isAllowed = tx.origin == RELAYER && isEligible;
+        } else {
+            return true;
         }
-
-        return true;
     }
 
     /**
@@ -159,7 +158,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     ) public payable override onlyOnPurchaseFrom(slicerId) {
         if (ENABLED_PRODUCT_ID != productId) revert WrongProductId();
 
-        // for the first 1000 nfts, only allow mints on farcaster and once per fid.
+        // for the first `FIRST_STAGE_NFT_UNITS` nfts, only allow mints on farcaster and once per fid.
         if (_isFirstStage()) {
             // cast the first 3 bytes of buyerCustomData to `uint24 fid`
             uint24 fid = uint24(bytes3(buyerCustomData));
