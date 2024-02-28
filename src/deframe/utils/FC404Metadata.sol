@@ -204,7 +204,7 @@ library FC404Metadata {
             );
         }
 
-        return string(jsonData);
+        return string.concat("data:json/application;base64,", Base64.encode(jsonData));
     }
 
     /// @notice A helper function to return the colormap hash and name
