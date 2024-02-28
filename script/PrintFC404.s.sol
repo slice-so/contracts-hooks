@@ -10,7 +10,7 @@ import {LibString} from "@solady/utils/LibString.sol";
 
 import {IColormapRegistry} from "../src/interfaces/IColormapRegistry.sol";
 
-contract Print404Script is Script {
+contract PrintFC404Script is Script {
     using DynamicBufferLib for DynamicBufferLib.DynamicBuffer;
     using LibPRNG for LibPRNG.PRNG;
     using LibString for uint256;
