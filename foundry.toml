@@ -7,6 +7,7 @@ fs_permissions = [
   { access = "read", path = "./out" },
   { access = "read-write", path = "./output" },
 ]
+via-ir = true
 
 [rpc_endpoints]
 mainnet = "${RPC_URL_MAINNET}"
