@@ -15,3 +15,4 @@ import {BasedMerch_Denver_SliceHook} from "./BasedMerch/BasedMerch_Denver.sol";
 import {BasedMerch_ArtBasel_Delivery_SliceHook} from "./BasedMerch/BasedMerch_ArtBasel_Delivery.sol";
 import {BasedMerchOne_SliceHook} from "./BasedMerch/BasedMerchOne.sol";
 import {BaseCafe_SliceHook} from "./BasedMerch/BaseCafe.sol";
+import {BaseCafe_Compass_SliceHook} from "./BasedMerch/BaseCafe_Compass.sol";
