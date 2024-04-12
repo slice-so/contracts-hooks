@@ -3,12 +3,13 @@ pragma solidity ^0.8.0;
 
 import {DN404} from "dn404/DN404.sol";
 import {DN404Mirror} from "dn404/DN404Mirror.sol";
+import {Tippable} from "./Tippable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {SlicerPurchasableImmutable} from "../extensions/Purchasable/SlicerPurchasableImmutable.sol";
 import {FC404Metadata} from "./utils/FC404Metadata.sol";
 
-contract FC404 is DN404, SlicerPurchasableImmutable {
+contract FC404 is DN404, Tippable, SlicerPurchasableImmutable {
     /*//////////////////////////////////////////////////////////////
                                  ERRORS
     //////////////////////////////////////////////////////////////*/
@@ -73,7 +74,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
         string memory symbol_,
         uint96 initialTokenSupply,
         address initialSupplyOwner
-    ) SlicerPurchasableImmutable(productsModuleAddress_, slicerId_) {
+    ) SlicerPurchasableImmutable(productsModuleAddress_, slicerId_) Tippable(1 days, 14) {
         _name = name_;
         _symbol = symbol_;
 
