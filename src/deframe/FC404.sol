@@ -40,8 +40,11 @@ contract FC404 is DN404, Tippable, SlicerPurchasableImmutable {
             // TODO: add collections
     ];
 
+    // The number of cycles to average the allowance.
+    uint256 public constant ALLOWANCE_AVERAGE_CYCLES = 7;
     // Supply value under which the free mint stage applies
     uint256 internal constant FIRST_STAGE_NFT_UNITS = 500;
+
     uint256 internal immutable FIRST_STAGE_TOKEN_AMOUNT;
 
     /*//////////////////////////////////////////////////////////////
@@ -52,6 +55,7 @@ contract FC404 is DN404, Tippable, SlicerPurchasableImmutable {
     string private _symbol;
 
     mapping(uint24 fid => bool) public hasClaimed;
+    mapping(uint256 cycle => uint256 tipAmount) public tipsPerCycle;
 
     /*//////////////////////////////////////////////////////////////
                               CONSTRUCTOR
@@ -74,7 +78,7 @@ contract FC404 is DN404, Tippable, SlicerPurchasableImmutable {
         string memory symbol_,
         uint96 initialTokenSupply,
         address initialSupplyOwner
-    ) SlicerPurchasableImmutable(productsModuleAddress_, slicerId_) Tippable(1 days, 14) {
+    ) SlicerPurchasableImmutable(productsModuleAddress_, slicerId_) Tippable(1 days) {
         _name = name_;
         _symbol = symbol_;
 
@@ -212,4 +216,56 @@ contract FC404 is DN404, Tippable, SlicerPurchasableImmutable {
     function _isFirstStage() internal view returns (bool) {
         return totalSupply() < FIRST_STAGE_TOKEN_AMOUNT;
     }
+
+    /*//////////////////////////////////////////////////////////////
+                            TIPPABLE CONFIG
+    //////////////////////////////////////////////////////////////*/
+
+    // Modified to store the total tips made per cycle
+    function _onTip(uint256 currentCycle_, address, address, uint256 amount) internal override {
+        tipsPerCycle[currentCycle_] += amount;
+    }
+
+    // Mint `amount` tokens to `account`
+    function _onClaim(address account, uint256 amount) internal override {
+        _mint(account, amount);
+    }
+
+    // Modified to mint tokens equal to `_unit()` for each cycle
+    function _deriveAmountReceived(address account, uint256 cycle) internal view override returns (uint256) {
+        return tipsReceived[account][cycle] * _unit() / tipsPerCycle[cycle];
+    }
+
+    // Calculate allowance by averaging tips among last `TIP_AVERAGE_CYCLE` cycles
+    function _allowance(address account) public view override returns (uint256) {
+        uint256 currentCycle_ = currentCycle();
+
+        uint256 cycle;
+        uint256 accountAllowance;
+        uint256 totalCycles = 1;
+        for (; totalCycles <= ALLOWANCE_AVERAGE_CYCLES;) {
+            if (totalCycles > currentCycle_) break;
+
+            unchecked {
+                cycle = currentCycle_ - totalCycles;
+            }
+            accountAllowance += tipsReceived[account][cycle];
+
+            unchecked {
+                ++totalCycles;
+            }
+        }
+
+        uint256 balanceAllowance = balanceOf(account) / 10;
+        accountAllowance = accountAllowance / totalCycles;
+
+        // Take the highest between balance and account allowances
+        return (balanceAllowance > accountAllowance ? balanceAllowance : accountAllowance)
+            - tipsMade[account][currentCycle_];
+    }
 }
+
+// TODO: Tippable
+//
+// - Make sure allowances cannot be gamed
+// - Incentivise tipping by ...
