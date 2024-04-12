@@ -13,13 +13,13 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
                                  ERRORS
     //////////////////////////////////////////////////////////////*/
 
-    /// @notice Emitted when this hook is called by a different productId.
+    /// Emitted when this hook is called by a different productId.
     error WrongProductId();
 
-    /// @notice Emitted when a buyer has already claimed.
+    /// Emitted when a buyer has already claimed.
     error AlreadyClaimed();
 
-    /// @notice Emitted when a token hasn't been minted.
+    /// Emitted when a token hasn't been minted.
     error TokenUnminted();
 
     /*//////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     //////////////////////////////////////////////////////////////*/
 
     /**
-     * @notice Initializes the contract.
+     * Initializes the contract.
      *
      * @param productsModuleAddress_ {ProductsModule} address
      * @param slicerId_ ID of the slicer linked to this contract
@@ -90,7 +90,9 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     {
         DN404Storage storage $ = _getDN404Storage();
 
-        if (_unit() == 0) revert UnitIsZero();
+        unchecked {
+            if (_unit() - 1 >= 2 ** 96 - 1) revert InvalidUnit();
+        }
         if ($.mirrorERC721 != address(0)) revert DNAlreadyInitialized();
         if (mirror == address(0)) revert MirrorAddressIsZero();
 
@@ -118,7 +120,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     //////////////////////////////////////////////////////////////*/
 
     /**
-     * @notice Overridable function containing the requirements for an account to be eligible for the purchase*
+     * Overridable function containing the requirements for an account to be eligible for the purchase*
      * @dev Used on the Slice interface to check whether a user is able to buy a product. See {ISlicerPurchasable}.
      * @dev Max quantity purchasable per address and total mint amount is handled on ProductsModule
      */
@@ -146,7 +148,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     }
 
     /**
-     * @notice Overridable function to handle external calls on product purchases from slicers. See {ISlicerPurchasable}
+     * Overridable function to handle external calls on product purchases from slicers. See {ISlicerPurchasable}
      */
     function onProductPurchase(
         uint256 slicerId,
@@ -188,7 +190,7 @@ contract FC404 is DN404, SlicerPurchasableImmutable {
     }
 
     /// @inheritdoc DN404
-    function tokenURI(uint256 _id) public view override returns (string memory) {
+    function _tokenURI(uint256 _id) internal view override returns (string memory) {
         // Revert if the token hasn't been minted.
         if (_ownerOf(_id) == address(0)) revert TokenUnminted();
 
