@@ -2,7 +2,6 @@
 pragma solidity 0.8.19;
 
 import "forge-std/Script.sol";
-import {BasedInstitute} from "../src/BasedInstitute.sol";
 import {IProductsModule, Function} from "../src/utils/sliceV1/interfaces/IProductsModule.sol";
 
 contract SetProductExternalCall is Script {
