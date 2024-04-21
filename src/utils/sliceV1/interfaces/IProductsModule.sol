@@ -25,6 +25,8 @@ interface IProductsModule {
         CurrencyPrice[] memory currencyPrices
     ) external;
 
+    function setProductExternalCall(uint256 slicerId, uint256 productId, Function memory externalCall_) external;
+
     function removeProduct(uint256 slicerId, uint256 productId) external;
 
     function payProducts(PurchaseParams[] calldata purchases) external payable;
