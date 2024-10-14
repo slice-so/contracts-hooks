@@ -16,3 +16,8 @@ import {BasedMerch_ArtBasel_Delivery_SliceHook} from "./BasedMerch/BasedMerch_Ar
 import {BasedMerchOne_SliceHook} from "./BasedMerch/BasedMerchOne.sol";
 import {BaseCafe_SliceHook} from "./BasedMerch/BaseCafe.sol";
 import {BaseCafe_Compass_SliceHook} from "./BasedMerch/BaseCafe_Compass.sol";
+import {BaseCafe_SliceHook_2} from "./BasedMerch/BaseCafe_2.sol";
+import {BaseCafe_Howard_SliceHook} from "./BasedMerch/BaseCafe_Howard.sol";
+import {BaseCafe_StateOfCrypto_SliceHook} from "./BasedMerch/BaseCafe_StateOfCrypto.sol";
+import {BaseCafe_SummitCasino_SliceHook} from "./BasedMerch/BaseCafe_SummitCasino.sol";
+import {FirstForFree} from "./BasedMerch/FirstForFree.sol";
